@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <string>
 
@@ -15,5 +14,3 @@ public:
     Pessoa(/* args */);
     ~Pessoa();
 };
-
-
