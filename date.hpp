@@ -1,10 +1,10 @@
-class date
+class Date
 {
 private:
     int dia;
     int mes;
     int ano;
 public:
-    date(int dia, int mes, int ano);
-    ~date();
+    Date(int dia, int mes, int ano);
+    ~Date();
 };

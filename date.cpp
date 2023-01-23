@@ -1,7 +1,10 @@
 #include "date.hpp"
 
-date::date(){
+Date::Date(int dia, int mes, int ano){
+    this->dia = dia;
+    this->mes = mes;
+    this->ano = ano;
 }
 
-date::~date(){
+Date::~Date(){
 }

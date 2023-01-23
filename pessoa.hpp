@@ -11,9 +11,12 @@ private:
     int idade;
     string nome;
     string genero;
-    date dataDeNascimento;
+    Date dataDeNascimento;
+
+    int setIdade(Date dataDeNascimento);
     
 public:
-    Pessoa(/* args */);
+    Pessoa(string nome, string genero, Date dataDeNascimento);
     ~Pessoa();
+    
 };

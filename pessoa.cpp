@@ -4,10 +4,18 @@
 
 using namespace std;
 
-Pessoa::Pessoa(/* args */)
+Pessoa::Pessoa(string nome, string genero, Date dataDeNascimento)
 {
+    this->nome = nome;
+    this->dataDeNascimento = dataDeNascimento;
+    this->genero = genero;
+    //this->idade = setIdade(dataDeNascimento);
+}
+int Pessoa::setIdade(Date dataDeNascimento) {
+    //calcula idade
 }
 
 Pessoa::~Pessoa()
 {
+    
 }
