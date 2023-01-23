@@ -1,13 +1,11 @@
 #include <iostream>
-#include "pessoa.h"
-
 #include <string>
+#include "pessoa.hpp"
 
 using namespace std;
 
 Pessoa::Pessoa(/* args */)
 {
-    
 }
 
 Pessoa::~Pessoa()

@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <chrono>
+#include "date.hpp"
 
 using namespace std;
 
@@ -9,6 +11,7 @@ private:
     int idade;
     string nome;
     string genero;
+    date dataDeNascimento;
     
 public:
     Pessoa(/* args */);
