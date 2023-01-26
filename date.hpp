@@ -1,3 +1,6 @@
+#ifndef DATE_H
+#define DATE_H
+
 class Date
 {
 private:
@@ -8,3 +11,6 @@ public:
     Date(int dia, int mes, int ano);
     ~Date();
 };
+
+
+#endif
