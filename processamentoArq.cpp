@@ -5,6 +5,7 @@
 #include <fstream>
 #include <sstream>
 #include <locale>
+#include <algorithm>
 
 bool compare_pt_BR(const string &s1, const string &s2)
 {
@@ -44,16 +45,16 @@ void tiraAspas(string &str)
     str.erase(str.length() - 1);
 }
 
-vector<string *> split(string &str)
+vector<string> split(string &str)
 {
     string chave;
     stringstream inputString(str);
-    vector<string *> linha_quebrada;
+    vector<string> linha_quebrada;
 
     while (getline(inputString, chave, ';'))
     {
         tiraAspas(chave);
-        linha_quebrada.push_back(&chave);
+        linha_quebrada.push_back(chave);
     }
 
     return linha_quebrada;
@@ -82,17 +83,42 @@ void ProcessamentoArq::readConsultaCand(SistemaEleitoral &eleicao)
     consultaFile.open("candidatos.csv");
 
     string linha = "";
-
+    // le o cabecalho
     getline(consultaFile, linha);
     map<string, int> coluna = criaMapaCabealho(linha);
-
+    linha = "";
+    // cada passagem no while é uma linha lida
     while (getline(consultaFile, linha))
     {
         string linha_utf8 = iso_8859_1_to_utf8(linha);
-        vector<string *> atributos = split(linha_utf8);
-        
+        vector<string> atributos = split(linha_utf8);
+
+        //exemplo: pegar o valor da coluna "CD_CARGO"
+        // auto it = coluna.find("CD_CARGO");
+        // string dadoLido = atributos[it->second];
+        // cout << dadoLido << endl;
+        linha = "";
     }
 }
 void ProcessamentoArq::readVotos(SistemaEleitoral &eleicao)
 {
+    ifstream votosFIle;
+    // locale loc = locale("pt_BR.ISO8859-1");
+    // votosFIle.imbue(loc);
+    votosFIle.exceptions(ifstream::badbit);
+    votosFIle.open("votacao.csv");
+
+    string linha = "";
+
+    getline(votosFIle, linha);
+    map<string, int> coluna = criaMapaCabealho(linha);       
+    linha = "";    
+
+    
+    while (getline(votosFIle, linha)) {
+        string linha_utf8 = iso_8859_1_to_utf8(linha);
+        vector<string> atributos = split(linha_utf8);
+        auto it = coluna.find("NM_VOTAVEL");                       
+        linha = "";
+    }
 }
