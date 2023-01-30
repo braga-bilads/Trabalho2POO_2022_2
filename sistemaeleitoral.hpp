@@ -6,6 +6,7 @@
 #include "candidato.hpp"
 #include "partido.hpp"
 #include "date.hpp"
+
 using namespace std;
 
 class SistemaEleitoral
@@ -33,6 +34,7 @@ public:
     string getPathConsulta();
     string getPathVotos();
     void addCandidato(Candidato &c);
+    
 };
 
 #endif

@@ -1,7 +1,7 @@
 #include <iostream>
 #include "sistemaeleitoral.hpp"
 
-SistemaEleitoral::SistemaEleitoral(string& numeroCargo, string& pathConsulta, string& pathVotos, Date& dataDaEleicao) {
+SistemaEleitoral::SistemaEleitoral(string &numeroCargo, string &pathConsulta, string &pathVotos, Date &dataDaEleicao) {
     int cargo = 0;
     if (numeroCargo.compare("--estadual") == 0) {
         cargo = 7;
@@ -51,3 +51,4 @@ string SistemaEleitoral::getPathVotos() {
 void SistemaEleitoral::addCandidato(Candidato &c) {
     candidatos.insert({c.getNumeroVotavel(), &c});
 }
+

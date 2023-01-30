@@ -12,7 +12,7 @@ Pessoa::Pessoa(string& nome, string& genero, Date &dataDeNascimento)
 }
 int Pessoa::setIdade(Date dataDeNascimento)
 {
-    // calcula idade
+    return 1;
 }
 
 Pessoa::~Pessoa()

@@ -1,10 +1,49 @@
 #include "date.hpp"
+#include <string.h>
+#include <iostream>
 
-Date::Date(int dia, int mes, int ano){
-    this->dia = dia;
-    this->mes = mes;
-    this->ano = ano;
+Date::Date(string &data)
+{
+
+    size_t pos = 0;
+    string token, delimiter = "/";
+
+    for (int i = 0; (pos = data.find(delimiter)) != string::npos; i++)
+    {
+        token = data.substr(0, pos);
+        if (i == 0)
+            dia = stoi(token);
+
+        else if (i == 1)
+            mes = stoi(token);
+
+        data.erase(0, pos + delimiter.length());
+    }
+    ano = stoi(data.substr(0, data.length()));
 }
 
-Date::~Date(){
+int Date::getDia()
+{
+    return this->dia;
+}
+int Date::getMes()
+{
+    return this->mes;
+}
+int Date::getAno()
+{
+    return this->ano;
+}
+
+// ostream &operator<<(ostream &out, Date &date){
+//     return out << date.getDia() << " " << date.getMes() << " " << date.getAno();
+//     }
+
+void Date::dateprint()
+{
+    cout << this->dia << "/" << this->mes << "/" << this->ano << endl;
+}
+
+Date::~Date()
+{
 }
