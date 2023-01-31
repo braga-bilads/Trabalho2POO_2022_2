@@ -38,7 +38,7 @@ public:
     void incrementaVotosLegenda(int qtd);
     void incrementaQuantidadeDeVagas(); //soma um
     void setCandidatoMenoseMaisVotado(); // ordena os candidatos e seta o mais e menos votado
-    
+    void incrementaEleitos();
 
 };
 

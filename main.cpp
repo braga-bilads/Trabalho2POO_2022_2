@@ -26,10 +26,10 @@ int main(int argc, const char** argv) {
     
     Date d(data);
     
-    SistemaEleitoral eleicao(numeroCargo, pathConsulta, pathVotos, d);
-    ProcessamentoArq pa;
-    pa.readConsultaCand(eleicao);
-    pa.readVotos(eleicao);
+    SistemaEleitoral sisEleitoral(numeroCargo, pathConsulta, pathVotos, d);
+    
+    readConsultaCand(sisEleitoral);
+    readVotos(sisEleitoral);
 
 
 

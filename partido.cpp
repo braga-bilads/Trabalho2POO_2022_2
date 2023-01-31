@@ -77,4 +77,7 @@ void Partido::setCandidatoMenoseMaisVotado() {
         
 }
 
-
+void Partido::incrementaEleitos()
+{
+    quantidadeDeEleitos++;
+}

@@ -24,16 +24,19 @@ private:
 
 public:
     SistemaEleitoral(string &numeroCargo, string &pathConsulta, string &pathVotos, Date &dataDaEleicao);
+
+    int getNumeroCargo();
     void incTotalVotosLegenda(int qtd);
     void incTotalVotosNominais(int qtd);
     int getTotalVotosLegenda();
     int getTotalVotosNominais();
     int getQtdVagas();
     void incrementaQtdVagas();
-    Date getDataDaEleicao();
+    Date& getDataDaEleicao();
     string getPathConsulta();
     string getPathVotos();
     void addCandidato(Candidato &c);
+    map<int,Partido*>& getPartidos();
     
 };
 

@@ -21,7 +21,13 @@ SistemaEleitoral::SistemaEleitoral(string &numeroCargo, string &pathConsulta, st
 
 }
 
-void SistemaEleitoral::incTotalVotosLegenda(int qtd) {
+int SistemaEleitoral::getNumeroCargo()
+{
+    return numeroCargo;
+}
+
+void SistemaEleitoral::incTotalVotosLegenda(int qtd)
+{
     this->totalVotosLegenda +=qtd;
 }
 void SistemaEleitoral::incTotalVotosNominais(int qtd) {
@@ -39,7 +45,7 @@ int SistemaEleitoral::getQtdVagas() {
 void SistemaEleitoral::incrementaQtdVagas() {
     this->qtdVagas++;
 }
-Date SistemaEleitoral::getDataDaEleicao() {
+Date& SistemaEleitoral::getDataDaEleicao() {
     return *this->dataDaEleicao;
 }
 string SistemaEleitoral::getPathConsulta() {
@@ -49,6 +55,8 @@ string SistemaEleitoral::getPathVotos() {
     return *this->pathConsulta;
 }
 void SistemaEleitoral::addCandidato(Candidato &c) {
-    candidatos.insert({c.getNumeroVotavel(), &c});
+    candidatos.insert({(c).getNumeroVotavel(), &c});
 }
-
+map<int,Partido*>& SistemaEleitoral::getPartidos(){
+    return partidos;
+}

@@ -6,13 +6,9 @@
 #include "sistemaeleitoral.hpp"
 #include <vector>
 
-class ProcessamentoArq
-{
-private:
 
-public:    
-    void readConsultaCand(SistemaEleitoral &eleicao);
-    void readVotos(SistemaEleitoral &eleicao);
-};
+void readConsultaCand(SistemaEleitoral &eleicao);
+void readVotos(SistemaEleitoral &eleicao);
+
 
 #endif

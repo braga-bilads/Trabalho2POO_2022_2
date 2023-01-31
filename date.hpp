@@ -9,6 +9,7 @@ private:
     int mes;
     int ano;
 public:
+    Date();
     Date(string &data);
 
     int getDia();

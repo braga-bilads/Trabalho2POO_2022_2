@@ -5,15 +5,37 @@
 #include <fstream>
 #include <sstream>
 #include <locale>
+#include <cctype>
 #include <algorithm>
 
-bool compare_pt_BR(const string &s1, const string &s2)
-{
-    locale loc = locale("pt_BR.UTF-8");
-    const collate<char> &col = use_facet<collate<char>>(loc);
-    return (col.compare(s1.data(), s1.data() + s1.size(),
-                        s2.data(), s2.data() + s2.size()) < 0);
+// Código para fazer trim nas strings retirado da internet
+// https://stackoverflow.com/questions/216823/how-to-trim-an-stdstring
+// trim from start (in place)
+static inline void ltrim(string &s) {
+    s.erase(s.begin(), find_if(s.begin(), s.end(), [](unsigned char ch) {
+        return !isspace(ch);
+    }));
 }
+
+// trim from end (in place)
+static inline void rtrim(string &s) {
+    s.erase(find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
+        return !isspace(ch);
+    }).base(), s.end());
+}
+
+// trim from both ends (in place)
+static inline void trim(string &s) {
+    rtrim(s);
+    ltrim(s);
+}
+// trim from both ends (copying)
+static inline string trim_copy(string s) {
+    trim(s);
+    return s;
+}
+
+///////////////////////////////////////////////////////
 
 string iso_8859_1_to_utf8(string &str)
 {
@@ -74,13 +96,82 @@ map<string, int> criaMapaCabealho(string &str)
     return map;
 }
 
-void ProcessamentoArq::readConsultaCand(SistemaEleitoral &eleicao)
+static Partido *criaPartido(vector<string> &atributos, map<string, int> &coluna, map<int, Partido *> &partidos)
+{
+    int numPartido;
+    string siglaPartido;
+
+    numPartido = stoi(atributos[coluna["NR_PARTIDO"]]);
+
+    if (!partidos.count(numPartido))
+    {
+        // cria um novo partido
+        siglaPartido = atributos[coluna["SG_PARTIDO"]];
+        partidos.insert({numPartido, new Partido(numPartido, siglaPartido)});
+    }
+    return partidos[numPartido]; // ja existe
+}
+
+static void criaCandidato(vector<string> &atributos, map<string, int> &coluna, SistemaEleitoral &sisEleitoral, Partido &p)
+{
+
+    int nCargo = sisEleitoral.getNumeroCargo();
+
+    int tipoDeputado; // 6 federal, 7 estadual
+    int numeroVotavel;
+    bool eleito;
+    int numeroFederacao;
+    bool legenda;
+    bool deferido;
+    string nome;
+    string genero;
+
+    legenda = atributos[coluna["NM_TIPO_DESTINACAO_VOTOS"]] == "Válido (legenda)";
+    
+    if(stoi(atributos[coluna["CD_SITUACAO_CANDIDATO_TOT"]]) != 2 &&
+       stoi(atributos[coluna["CD_SITUACAO_CANDIDATO_TOT"]]) != 16 ) 
+       deferido = false;
+    else deferido = true;
+
+    if(!legenda&&!deferido) return; // não deferido nem legenda ignora
+
+    tipoDeputado = stoi(atributos[coluna["NR_CANDIDATO"]]);
+    if(tipoDeputado != nCargo) return;
+
+    numeroVotavel = stoi(atributos[coluna["NR_CANDIDATO"]]);
+    nome = trim_copy(atributos[coluna["NM_UNRNA_CANDIDATO"]]);
+    numeroFederacao = stoi(atributos[coluna["NR_FEDERACAO"]]);
+
+    switch (stoi(atributos[coluna["CD_GENERO"]]))
+    {
+    case 2:
+        genero = "Feminino";
+        break;
+    
+    default:
+        genero = "Masculino";
+        break;
+    }
+    if(stoi(atributos[coluna["CD_SIT_TOT_TURNO"]]) == 3 ||stoi(atributos[coluna["CD_SIT_TOT_TURNO"]]) == 2 ){
+        sisEleitoral.incrementaQtdVagas();
+        p.incrementaQuantidadeDeVagas();
+        p.incrementaEleitos();
+        eleito = true;
+    } else eleito = false;
+
+    
+    sisEleitoral.addCandidato(*(new Candidato(nome,genero,*(new Date(atributos[coluna["DT_NASCIMENTO"]])),tipoDeputado,numeroVotavel,eleito,
+                                            numeroFederacao,legenda,p,sisEleitoral.getDataDaEleicao(),deferido)));
+
+}
+
+void readConsultaCand(SistemaEleitoral &sisEleitoral)
 {
     ifstream consultaFile;
     // locale loc = locale("pt_BR.ISO8859-1");
     // consultaFile.imbue(loc);
     consultaFile.exceptions(ifstream::badbit); // para tratar exceções depois
-    consultaFile.open("candidatos.csv");
+    consultaFile.open(sisEleitoral.getPathConsulta());
 
     string linha = "";
     // le o cabecalho
@@ -93,32 +184,32 @@ void ProcessamentoArq::readConsultaCand(SistemaEleitoral &eleicao)
         string linha_utf8 = iso_8859_1_to_utf8(linha);
         vector<string> atributos = split(linha_utf8);
 
-        //exemplo: pegar o valor da coluna "CD_CARGO"
-        // auto it = coluna.find("CD_CARGO");
-        // string dadoLido = atributos[it->second];
-        // cout << dadoLido << endl;
+        Partido *partido = criaPartido(atributos, coluna, (sisEleitoral.getPartidos()));
+
+        criaCandidato(atributos, coluna, sisEleitoral, *partido);
+
         linha = "";
     }
 }
-void ProcessamentoArq::readVotos(SistemaEleitoral &eleicao)
+void readVotos(SistemaEleitoral &sisEleitoral)
 {
     ifstream votosFIle;
     // locale loc = locale("pt_BR.ISO8859-1");
     // votosFIle.imbue(loc);
     votosFIle.exceptions(ifstream::badbit);
-    votosFIle.open("votacao.csv");
+    votosFIle.open(sisEleitoral.getPathVotos());
 
     string linha = "";
 
     getline(votosFIle, linha);
-    map<string, int> coluna = criaMapaCabealho(linha);       
-    linha = "";    
+    map<string, int> coluna = criaMapaCabealho(linha);
+    linha = "";
 
-    
-    while (getline(votosFIle, linha)) {
+    while (getline(votosFIle, linha))
+    {
         string linha_utf8 = iso_8859_1_to_utf8(linha);
         vector<string> atributos = split(linha_utf8);
-        auto it = coluna.find("NM_VOTAVEL");                       
+        // atributos[coluna["NM_VOTAVEL"]];
         linha = "";
     }
 }
