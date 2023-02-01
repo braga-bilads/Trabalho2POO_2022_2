@@ -144,7 +144,7 @@ static void criaCandidato(vector<string> &atributos, map<string, int> &coluna, S
     cout<<"aq"<<endl;
 
     tipoDeputado = stoi(atributos[coluna["NR_CANDIDATO"]]);
-    cout<<tipoDeputado<<" " << nCargo <<endl;
+    cout<<tipoDeputado<<" "              << nCargo <<endl;
     if (tipoDeputado != nCargo)
         return;
 
