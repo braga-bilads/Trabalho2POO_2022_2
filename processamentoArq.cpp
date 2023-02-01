@@ -143,7 +143,7 @@ static void criaCandidato(vector<string> &atributos, map<string, int> &coluna, S
         return; // não deferido nem legenda ignora
 
 
-    tipoDeputado = stoi(atributos[coluna["NR_CANDIDATO"]]);
+    tipoDeputado = stoi(atributos[coluna["CD_CARGO"]]);
 
     if (tipoDeputado != nCargo)
         return;
@@ -182,20 +182,20 @@ void readConsultaCand(SistemaEleitoral &sisEleitoral)
     // consultaFile.imbue(loc);
     consultaFile.exceptions(ifstream::badbit); // para tratar exceções depois
     consultaFile.open(sisEleitoral.getPathConsulta());
-    if(!consultaFile.is_open() ) exit(EXIT_SUCCESS);
+    
+    if(!consultaFile.is_open() ) exit(EXIT_FAILURE);
     string linha = "";
     // le o cabecalho
     getline(consultaFile, linha);
     map<string, int> coluna = criaMapaCabealho(linha);
     linha = "";
     // cada passagem no while é uma linha lida
-        cout<<"AQ"<<endl;
+
     while (getline(consultaFile, linha))
     {
         string linha_utf8 = iso_8859_1_to_utf8(linha);
         vector<string> atributos = split(linha_utf8);
         Partido *partido = criaPartido(atributos, coluna, (sisEleitoral.getPartidos()));
-
         criaCandidato(atributos, coluna, sisEleitoral, *partido);
     
         linha = "";
