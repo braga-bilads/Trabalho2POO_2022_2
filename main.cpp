@@ -16,7 +16,7 @@ void swap(string &str1, string &str2) {
 int main(int argc, const char** argv) {
     
     if (argc != 5)  {
-        cout << "USO: java -jar deputados.jar <opção_de_cargo> <caminho_arquivo_candidatos> <caminho_arquivo_votacao> <data>" << endl;
+        cout << "USO: ./deputados <opção_de_cargo> <caminho_arquivo_candidatos> <caminho_arquivo_votacao> <data>" << endl;
         exit(1);
     }
     string numeroCargo(argv[1]);
