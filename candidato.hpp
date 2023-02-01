@@ -21,7 +21,7 @@ private:
     Date* dataAtual;
 
 public:
-    Candidato(string& nome, string& genero, Date& dataDeNascimento, int tipoDeputado, int numeroVotavel,
+    Candidato(string nome, string genero, Date& dataDeNascimento, int tipoDeputado, int numeroVotavel,
               bool eleito, int numeroFederacao, bool legenda, Partido& partido,
               Date& dataAtual, bool deferido);
     
@@ -34,7 +34,6 @@ public:
     bool isDeferido();
     void incrementaNumeroVotos(int qtdVotos);
     bool isEleito_e_Deferido();
-
 
 };
 

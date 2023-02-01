@@ -55,8 +55,20 @@ string SistemaEleitoral::getPathVotos() {
     return *this->pathConsulta;
 }
 void SistemaEleitoral::addCandidato(Candidato &c) {
+    cout<<c.getNumeroVotavel()  << " " << c.getNome() << " " << c.getGenero()<< endl;
     candidatos.insert({(c).getNumeroVotavel(), &c});
 }
+
 map<int,Partido*>& SistemaEleitoral::getPartidos(){
     return partidos;
+}
+
+void SistemaEleitoral::printPartidos(SistemaEleitoral &sisEleitoral)
+{
+    map<int, Partido *>::iterator itr;
+    for (itr = sisEleitoral.getPartidos().begin(); itr != sisEleitoral.getPartidos().end(); itr++)
+    {
+        Partido p = *(itr->second);
+        cout << itr->first << " " << p.getSigla() << endl;
+    }
 }

@@ -13,16 +13,16 @@ class Pessoa
 {
 private:
     int idade;
-    string* nome;
-    string* genero;
+    string nome;
+    string genero;
     Date *dataDeNascimento;
 
     int setIdade(Date dataDeNascimento);
 
 public:
-    Pessoa(string& nome, string& genero, Date &dataDeNascimento);
-    string* getNome();
-    string* getGenero();
+    Pessoa(string nome, string genero, Date &dataDeNascimento);
+    string getNome();
+    string getGenero();
     ~Pessoa();
 };
 

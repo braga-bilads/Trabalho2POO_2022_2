@@ -13,7 +13,7 @@ class Partido //implementa um comparador
 private:    
     map <int, Candidato*> candidatos;
     int numero_votavel;
-    string* sigla;
+    string sigla;
     int quantidadeDeVotosNominais;
     int quantidadeDeVotosLegenda;
     int quantidadeTotalDeVotos;
@@ -22,9 +22,9 @@ private:
     Candidato* candMaisvotado;
     Candidato* candMenosvotado;
 public:
-    Partido(int numeroVotavel, string& sigla);
+    Partido(int numeroVotavel, string sigla);
     int getNumeroVotavel();
-    string* getSigla();
+    string getSigla();
     int getQuantidadeDeVotosNominais();
     int getQuantidadeDeVotosLegenda();
     int getQuantidadeTotalDeVotos();

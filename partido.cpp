@@ -12,12 +12,12 @@ static bool compare (Candidato *a, Candidato *b) {
 }
 
 
-Partido::Partido(int numero_votavel, string& sigla) {
+Partido::Partido(int numero_votavel, string sigla) {
     this->numero_votavel = numero_votavel;
-    this->sigla = &sigla;
+    this->sigla = sigla;
 }
 
-string* Partido::getSigla() {
+string Partido::getSigla() {
     return this->sigla;
 }
 

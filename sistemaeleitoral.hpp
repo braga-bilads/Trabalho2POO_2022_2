@@ -37,6 +37,7 @@ public:
     string getPathVotos();
     void addCandidato(Candidato &c);
     map<int,Partido*>& getPartidos();
+    void printPartidos(SistemaEleitoral &sisEleitoral);
     
 };
 

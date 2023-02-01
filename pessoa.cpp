@@ -4,10 +4,10 @@
 
 using namespace std;
 
-Pessoa::Pessoa(string& nome, string& genero, Date &dataDeNascimento)
+Pessoa::Pessoa(string nome, string genero, Date &dataDeNascimento)
 {    
-    this->nome = &nome;
-    this->genero = &genero;
+    this->nome = nome;
+    this->genero = genero;
     // this->idade = setIdade(dataDeNascimento);
 }
 int Pessoa::setIdade(Date dataDeNascimento)
@@ -19,9 +19,9 @@ Pessoa::~Pessoa()
 {
 }
 
-string* Pessoa::getNome() {
+string Pessoa::getNome() {
     return this->nome;
 }
-string* Pessoa::getGenero() {
+string Pessoa::getGenero() {
     return this->genero;
 }

@@ -11,26 +11,30 @@
 // Código para fazer trim nas strings retirado da internet
 // https://stackoverflow.com/questions/216823/how-to-trim-an-stdstring
 // trim from start (in place)
-static inline void ltrim(string &s) {
-    s.erase(s.begin(), find_if(s.begin(), s.end(), [](unsigned char ch) {
-        return !isspace(ch);
-    }));
+static inline void ltrim(string &s)
+{
+    s.erase(s.begin(), find_if(s.begin(), s.end(), [](unsigned char ch)
+                               { return !isspace(ch); }));
 }
 
 // trim from end (in place)
-static inline void rtrim(string &s) {
-    s.erase(find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
-        return !isspace(ch);
-    }).base(), s.end());
+static inline void rtrim(string &s)
+{
+    s.erase(find_if(s.rbegin(), s.rend(), [](unsigned char ch)
+                    { return !isspace(ch); })
+                .base(),
+            s.end());
 }
 
 // trim from both ends (in place)
-static inline void trim(string &s) {
+static inline void trim(string &s)
+{
     rtrim(s);
     ltrim(s);
 }
 // trim from both ends (copying)
-static inline string trim_copy(string s) {
+static inline string trim_copy(string s)
+{
     trim(s);
     return s;
 }
@@ -126,17 +130,23 @@ static void criaCandidato(vector<string> &atributos, map<string, int> &coluna, S
     string nome;
     string genero;
 
+    cout<<"aq"<<endl;
     legenda = atributos[coluna["NM_TIPO_DESTINACAO_VOTOS"]] == "Válido (legenda)";
-    
-    if(stoi(atributos[coluna["CD_SITUACAO_CANDIDATO_TOT"]]) != 2 &&
-       stoi(atributos[coluna["CD_SITUACAO_CANDIDATO_TOT"]]) != 16 ) 
-       deferido = false;
-    else deferido = true;
 
-    if(!legenda&&!deferido) return; // não deferido nem legenda ignora
+    if (stoi(atributos[coluna["CD_SITUACAO_CANDIDATO_TOT"]]) != 2 &&
+        stoi(atributos[coluna["CD_SITUACAO_CANDIDATO_TOT"]]) != 16)
+        deferido = false;
+    else
+        deferido = true;
+
+    if (!legenda && !deferido)
+        return; // não deferido nem legenda ignora
+    cout<<"aq"<<endl;
 
     tipoDeputado = stoi(atributos[coluna["NR_CANDIDATO"]]);
-    if(tipoDeputado != nCargo) return;
+    cout<<tipoDeputado<<" " << nCargo <<endl;
+    if (tipoDeputado != nCargo)
+        return;
 
     numeroVotavel = stoi(atributos[coluna["NR_CANDIDATO"]]);
     nome = trim_copy(atributos[coluna["NM_UNRNA_CANDIDATO"]]);
@@ -147,22 +157,22 @@ static void criaCandidato(vector<string> &atributos, map<string, int> &coluna, S
     case 2:
         genero = "Feminino";
         break;
-    
+
     default:
         genero = "Masculino";
         break;
     }
-    if(stoi(atributos[coluna["CD_SIT_TOT_TURNO"]]) == 3 ||stoi(atributos[coluna["CD_SIT_TOT_TURNO"]]) == 2 ){
+    if (stoi(atributos[coluna["CD_SIT_TOT_TURNO"]]) == 3 || stoi(atributos[coluna["CD_SIT_TOT_TURNO"]]) == 2)
+    {
         sisEleitoral.incrementaQtdVagas();
         p.incrementaQuantidadeDeVagas();
         p.incrementaEleitos();
         eleito = true;
-    } else eleito = false;
-
-    
-    sisEleitoral.addCandidato(*(new Candidato(nome,genero,*(new Date(atributos[coluna["DT_NASCIMENTO"]])),tipoDeputado,numeroVotavel,eleito,
-                                            numeroFederacao,legenda,p,sisEleitoral.getDataDaEleicao(),deferido)));
-
+    }
+    else
+        eleito = false;
+    sisEleitoral.addCandidato(*(new Candidato(nome, genero, *(new Date(atributos[coluna["DT_NASCIMENTO"]])), tipoDeputado, numeroVotavel, eleito,
+                                              numeroFederacao, legenda, p, sisEleitoral.getDataDaEleicao(), deferido)));
 }
 
 void readConsultaCand(SistemaEleitoral &sisEleitoral)
@@ -187,9 +197,10 @@ void readConsultaCand(SistemaEleitoral &sisEleitoral)
         Partido *partido = criaPartido(atributos, coluna, (sisEleitoral.getPartidos()));
 
         criaCandidato(atributos, coluna, sisEleitoral, *partido);
-
+        exit(EXIT_SUCCESS);
         linha = "";
     }
+    //sisEleitoral.printPartidos(sisEleitoral);
 }
 void readVotos(SistemaEleitoral &sisEleitoral)
 {
