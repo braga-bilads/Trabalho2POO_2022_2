@@ -35,9 +35,9 @@ int Date::getAno()
     return this->ano;
 }
 
-// ostream &operator<<(ostream &out, Date &date){
-//     return out << date.getDia() << " " << date.getMes() << " " << date.getAno();
-//     }
+ostream &operator<<(ostream &out, Date &date){
+    return out << date.getDia() << " " << date.getMes() << " " << date.getAno();
+}
 
 void Date::dateprint()
 {

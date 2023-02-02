@@ -2,14 +2,13 @@
 #include "pessoa.hpp"
 Candidato::Candidato(string nome, string genero, Date& dataDeNascimento, int tipoDeputado, int numeroVotavel,
                      bool eleito, int numeroFederacao, bool legenda, Partido& partido,
-                     Date& dataAtual, bool deferido) : Pessoa(nome, genero, dataDeNascimento) 
+                     Date& dataAtual, bool deferido) : Pessoa(nome, genero, dataDeNascimento, dataAtual) 
 {
     this->tipoDeputado = tipoDeputado;
     this->numeroVotavel = numeroVotavel;
     this->eleito = eleito;
     this->numeroFederacao = numeroFederacao;
     this->legenda = legenda;
-    this->dataAtual = &dataAtual;
     this->deferido = deferido;
 }
 

@@ -18,7 +18,6 @@ private:
     int numeroFederacao;
     bool legenda;
     bool deferido;
-    Date* dataAtual;
 
 public:
     Candidato(string nome, string genero, Date& dataDeNascimento, int tipoDeputado, int numeroVotavel,

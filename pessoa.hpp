@@ -12,15 +12,13 @@ using namespace std;
 class Pessoa
 {
 private:
-    int idade;
     string nome;
     string genero;
     Date *dataDeNascimento;
 
-    int setIdade(Date dataDeNascimento);
-
+    void setIdade(const Date & dataAtual);
 public:
-    Pessoa(string nome, string genero, Date &dataDeNascimento);
+    Pessoa(string nome,string genero,Date &dataDeNascimento,const Date& dataAtual);
     string getNome();
     string getGenero();
     ~Pessoa();
