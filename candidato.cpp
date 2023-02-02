@@ -1,42 +1,36 @@
 #include "candidato.hpp"
 #include "pessoa.hpp"
-Candidato::Candidato(string nome, string genero, Date& dataDeNascimento, int tipoDeputado, int numeroVotavel,
-                     bool eleito, int numeroFederacao, bool legenda, Partido& partido,
-                     Date& dataAtual, bool deferido) : Pessoa(nome, genero, dataDeNascimento, dataAtual) 
-{
-    this->tipoDeputado = tipoDeputado;
-    this->numeroVotavel = numeroVotavel;
-    this->eleito = eleito;
-    this->numeroFederacao = numeroFederacao;
-    this->legenda = legenda;
-    this->deferido = deferido;
-}
+Candidato::Candidato(string nome, string genero, Date &dataDeNascimento, int tipoDeputado, int numeroVotavel,
+                     bool eleito, int numeroFederacao, bool legenda, Partido &partido,
+                     Date &dataAtual, bool deferido) : Pessoa(nome, genero, dataDeNascimento, dataAtual), tipoDeputado(tipoDeputado),
+                                                       numeroVotavel(numeroVotavel), eleito(eleito), numeroFederacao(numeroFederacao), 
+                                                       legenda(legenda), deferido(deferido), partido(&partido) {    }
 
-int Candidato::getTipoDeputado()
+int Candidato::getTipoDeputado() const
 {
     return tipoDeputado;
 }
-int Candidato::getNumeroVotavel()
+int Candidato::getNumeroVotavel() const
 {
     return numeroVotavel;
 }
-bool Candidato::isEleito()
+bool Candidato::isEleito() const
 {
     return eleito;
 }
-int Candidato::getNumeroDeVotos()
+int Candidato::getNumeroDeVotos() const
 {
     return numeroDeVotos;
 }
-int Candidato::getNumeroFederacao()
+int Candidato::getNumeroFederacao() const
 {
     return numeroFederacao;
 }
-bool Candidato::isLegenda()
+bool Candidato::isLegenda() const
 {
     return legenda;
 }
-bool Candidato::isDeferido()
+bool Candidato::isDeferido() const
 {
     return deferido;
 }
@@ -44,7 +38,24 @@ void Candidato::incrementaNumeroVotos(int qtdVotos)
 {
     numeroDeVotos += qtdVotos;
 }
-bool Candidato::isEleito_e_Deferido()
+bool Candidato::isEleito_e_Deferido() const
 {
     return eleito && deferido;
 }
+
+Partido Candidato::getPartido() const{
+    return *this->partido;
+}
+
+
+ostream& operator<<(ostream& os, const Candidato& c) {
+    //set locale to ptbr
+    if (c.getNumeroFederacao() == -1) {
+        os << c.getNome() << " (" << c.getPartido().getSigla() << ", " << c.getNumeroDeVotos() << " votos)";
+        return os; 
+    }
+    else {
+        os << "*" << c.getNome() << " (" << c.getPartido().getSigla() << ", " << c.getNumeroDeVotos() << " votos)";
+    }
+}
+

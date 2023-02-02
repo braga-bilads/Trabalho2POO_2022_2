@@ -8,16 +8,15 @@ private:
     int dia;
     int mes;
     int ano;
+
 public:
+    Date();
     Date(string &data);
 
-    int getDia();
-    int getMes();
-    int getAno();
-    void dateprint();      
+    int getDia() const;
+    int getMes() const;
+    int getAno() const;   
     ~Date();
-
-    
 };
 
 

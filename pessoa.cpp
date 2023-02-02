@@ -4,26 +4,24 @@
 
 using namespace std;
 
-Pessoa::Pessoa(string nome,string genero,Date &dataDeNascimento,const Date& dataAtual)
+static int calculaIdade(Date &dataDeNascimento, Date &dataAtual) {
+
+}
+
+Pessoa::Pessoa(string nome, string genero, Date &dataDeNascimento, Date &dataAtual)
 {    
     this->nome = nome;
     this->genero = genero;
-    this->dataDeNascimento = &dataDeNascimento;
-    setIdade(dataAtual);
-}
-
-void Pessoa::setIdade(const Date &dataAtual)
-{
+    this->idade = calculaIdade(dataDeNascimento, dataAtual);
 }
 
 Pessoa::~Pessoa()
 {
 }
 
-string Pessoa::getNome()
-{
+string Pessoa::getNome() const {
     return this->nome;
 }
-string Pessoa::getGenero() {
+string Pessoa::getGenero() const {
     return this->genero;
 }

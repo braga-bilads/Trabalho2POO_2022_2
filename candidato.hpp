@@ -18,21 +18,24 @@ private:
     int numeroFederacao;
     bool legenda;
     bool deferido;
+    Partido* partido;
 
 public:
     Candidato(string nome, string genero, Date& dataDeNascimento, int tipoDeputado, int numeroVotavel,
               bool eleito, int numeroFederacao, bool legenda, Partido& partido,
               Date& dataAtual, bool deferido);
     
-    int getTipoDeputado();
-    int getNumeroVotavel();
-    bool isEleito();
-    int getNumeroDeVotos();
-    int getNumeroFederacao();
-    bool isLegenda();
-    bool isDeferido();
+    int getTipoDeputado() const;
+    int getNumeroVotavel() const;
+    bool isEleito() const;
+    int getNumeroDeVotos() const;
+    int getNumeroFederacao() const; 
+    bool isLegenda() const;
+    bool isDeferido() const;
     void incrementaNumeroVotos(int qtdVotos);
-    bool isEleito_e_Deferido();
+    bool isEleito_e_Deferido() const;
+    Partido getPartido() const;
+    
 
 };
 

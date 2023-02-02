@@ -22,28 +22,24 @@ Date::Date(string &data)
     ano = stoi(data.substr(0, data.length()));
 }
 
-int Date::getDia()
+int Date::getDia() const
 {
     return this->dia;
 }
-int Date::getMes()
+int Date::getMes() const
 {
     return this->mes;
 }
-int Date::getAno()
+int Date::getAno() const
 {
     return this->ano;
 }
 
-ostream &operator<<(ostream &out, Date &date){
-    return out << date.getDia() << " " << date.getMes() << " " << date.getAno();
-}
-
-void Date::dateprint()
-{
-    cout << this->dia << "/" << this->mes << "/" << this->ano << endl;
-}
-
 Date::~Date()
 {
+}
+
+ostream& operator<<(ostream& os, const Date& d) {
+    os << d.getDia() << '/' << d.getMes() << '/' << d.getAno() << endl;
+    return os;
 }
