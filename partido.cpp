@@ -102,27 +102,40 @@ void Partido::incrementaEleitos()
 
 ostream &operator<<(ostream &os, const Partido &p)
 {
-    
+
     string saida = p.getSigla() + " - " + to_string(p.getNumeroVotavel()) + ", " + to_string(p.getQuantidadeTotalDeVotos());
-   
-    if (p.getQuantidadeTotalDeVotos() > 1) {
+
+    if (p.getQuantidadeTotalDeVotos() > 1)
+    {
         saida = saida + " votos (" + to_string(p.getQuantidadeDeVotosNominais());
     }
-    else {
+    else
+    {
         saida = saida + " voto (" + to_string(p.getQuantidadeDeVotosNominais());
     }
-    if (p.getQuantidadeDeVotosNominais() > 1) {
+    if (p.getQuantidadeDeVotosNominais() > 1)
+    {
         saida = saida + " nominais (" + to_string(p.getQuantidadeDeVotosLegenda()) + " de legenda), ";
     }
-    else {
+    else
+    {
         saida = saida + " nominal (" + to_string(p.getQuantidadeDeVotosLegenda()) + " de legenda), ";
     }
-    if (p.getQuantidadeDeEleitos() > 1) {
-        saida = saida +  to_string(p.getQuantidadeDeEleitos()) + " candidatos eleitos ";
+    if (p.getQuantidadeDeEleitos() > 1)
+    {
+        saida = saida + to_string(p.getQuantidadeDeEleitos()) + " candidatos eleitos ";
     }
-    else {
-        saida = saida +  to_string(p.getQuantidadeDeEleitos()) + " candidatos eleitos ";
+    else
+    {
+        saida = saida + to_string(p.getQuantidadeDeEleitos()) + " candidatos eleitos ";
     }
     return os << saida;
+}
 
+bool Partido::operator<(const Partido &p) {
+    int valor = this->quantidadeTotalDeVotos - p.getQuantidadeTotalDeVotos();
+    if (valor == 0) {        
+        return (p.getNumeroVotavel() - this->numero_votavel) < 0;
+    }
+    return valor < 0;
 }

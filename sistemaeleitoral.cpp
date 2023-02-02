@@ -63,10 +63,6 @@ map<int,Partido*>& SistemaEleitoral::getPartidos(){
     return partidos;
 }
 
-map<int,Candidato*>& SistemaEleitoral::getCandidatos(){
-    return candidatos;
-}
-
 void SistemaEleitoral::printPartidos(SistemaEleitoral &sisEleitoral)
 {
     map<int, Partido *>::iterator itr;

@@ -130,6 +130,7 @@ static void criaCandidato(vector<string> &atributos, map<string, int> &coluna, S
     string nome;
     string genero;
 
+    
     legenda = atributos[coluna["NM_TIPO_DESTINACAO_VOTOS"]] == "Válido (legenda)";
 
     if (stoi(atributos[coluna["CD_SITUACAO_CANDIDATO_TOT"]]) != 2 &&
@@ -140,6 +141,7 @@ static void criaCandidato(vector<string> &atributos, map<string, int> &coluna, S
 
     if (!legenda && !deferido)
         return; // não deferido nem legenda ignora
+
 
     tipoDeputado = stoi(atributos[coluna["CD_CARGO"]]);
 
@@ -180,9 +182,8 @@ void readConsultaCand(SistemaEleitoral &sisEleitoral)
     // consultaFile.imbue(loc);
     consultaFile.exceptions(ifstream::badbit); // para tratar exceções depois
     consultaFile.open(sisEleitoral.getPathConsulta());
-
-    if (!consultaFile.is_open())
-        exit(EXIT_FAILURE);
+    
+    if(!consultaFile.is_open() ) exit(EXIT_FAILURE);
     string linha = "";
     // le o cabecalho
     getline(consultaFile, linha);
@@ -196,48 +197,11 @@ void readConsultaCand(SistemaEleitoral &sisEleitoral)
         vector<string> atributos = split(linha_utf8);
         Partido *partido = criaPartido(atributos, coluna, (sisEleitoral.getPartidos()));
         criaCandidato(atributos, coluna, sisEleitoral, *partido);
-
+    
         linha = "";
     }
     //sisEleitoral.printPartidos(sisEleitoral);
 }
-
-static void contaVotos(vector<string> &atributos, map<string, int> &coluna, SistemaEleitoral &sisEleitoral)
-{
-
-    if (stoi(atributos[coluna["CD_CARGO"]]) != sisEleitoral.getNumeroCargo())
-        return;
-
-    int numero = stoi(atributos[coluna["NR_VOTAVEL"]]);
-
-    if (numero == 95 || numero == 96 || numero == 97 || numero == 98)
-        return;
-
-    int votos = stoi(atributos[coluna["QT_VOTOS"]]);
-
-    if((sisEleitoral.getCandidatos()).count(numero) == 0){
-        if ((sisEleitoral.getPartidos()).count(numero) != 0)
-        {
-            Partido* p = (sisEleitoral.getPartidos())[numero];
-            p->incrementaVotosLegenda(votos);
-            sisEleitoral.incTotalVotosLegenda(votos);
-        }
-        else return;
-    }
-    else{
-        Candidato* c = ((sisEleitoral.getCandidatos())[numero]);
-        c->incrementaNumeroVotos(votos);
-
-        if (!c->isLegenda())
-        {
-            sisEleitoral.incTotalVotosNominais(votos);
-        }
-        else
-            sisEleitoral.incTotalVotosLegenda(votos);
-
-    }
-}
-
 void readVotos(SistemaEleitoral &sisEleitoral)
 {
     ifstream votosFIle;
@@ -256,9 +220,7 @@ void readVotos(SistemaEleitoral &sisEleitoral)
     {
         string linha_utf8 = iso_8859_1_to_utf8(linha);
         vector<string> atributos = split(linha_utf8);
-
-        contaVotos(atributos, coluna, sisEleitoral);
-
+        // atributos[coluna["NM_VOTAVEL"]];
         linha = "";
     }
 }

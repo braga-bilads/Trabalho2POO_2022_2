@@ -35,6 +35,7 @@ public:
     void incrementaNumeroVotos(int qtdVotos);
     bool isEleito_e_Deferido() const;
     Partido getPartido() const;
+    bool operator<(const Candidato &c);
     
 
 };
