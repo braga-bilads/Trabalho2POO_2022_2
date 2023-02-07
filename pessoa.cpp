@@ -4,24 +4,25 @@
 
 using namespace std;
 
-// 10/10/2002
 // 01/02/2023
+// 10/10/2002
 //
 
 static int calculaIdade(Date &dataDeNascimento, Date &dataAtual)
 {
-    int age = dataAtual.getAno() - dataDeNascimento.getAno();
-    if (dataAtual.getMes() > dataDeNascimento.getMes())    
-        return age;    
-    else if (dataAtual.getMes() < dataDeNascimento.getMes())    
-        return --age;    
-    else
+    int ano = dataAtual.getAno() - dataDeNascimento.getAno();
+    
+    if (dataAtual.getMes() < dataDeNascimento.getMes()) 
+        ano--;    
+    else if (dataAtual.getMes() == dataDeNascimento.getMes())
     {
-        if (dataAtual.getDia() >= dataDeNascimento.getDia())
-            return age;
-        else
-            return --age;
+        if (dataAtual.getDia() < dataDeNascimento.getDia())
+            ano--;
     }
+    int bissexto = ano/4;
+    ano *= 365;
+    ano += bissexto;
+    return ano;    
 }
 
 Pessoa::Pessoa(string nome, string genero, Date &dataDeNascimento, Date &dataAtual)

@@ -28,16 +28,16 @@ public:
     int getNumeroCargo();
     void incTotalVotosLegenda(int qtd);
     void incTotalVotosNominais(int qtd);
-    int getTotalVotosLegenda();
-    int getTotalVotosNominais();
-    int getQtdVagas();
+    int getTotalVotosLegenda() const;
+    int getTotalVotosNominais() const;
+    int getQtdVagas() const;
     void incrementaQtdVagas();
-    Date& getDataDaEleicao();
-    string getPathConsulta();
-    string getPathVotos();
+    Date& getDataDaEleicao() const;
+    string getPathConsulta() const;
+    string getPathVotos() const;
     void addCandidato(Candidato &c);
     map<int,Partido*>& getPartidos();
-    map<int,Candidato*>& getCandidatos();
+    map<int,Candidato*> getCandidatos() const;
     void printPartidos(SistemaEleitoral &sisEleitoral);
     
 };

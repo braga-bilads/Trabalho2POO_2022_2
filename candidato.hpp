@@ -37,7 +37,9 @@ public:
     Partido getPartido() const;
     bool operator<(const Candidato &c);
     
-
+    
 };
+ostream& operator<<(ostream& os, const Candidato& c);
+
 
 #endif

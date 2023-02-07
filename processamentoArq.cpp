@@ -144,14 +144,16 @@ static void criaCandidato(vector<string> &atributos, map<string, int> &coluna, S
 
 
     tipoDeputado = stoi(atributos[coluna["CD_CARGO"]]);
+     
 
     if (tipoDeputado != nCargo)
         return;
 
     numeroVotavel = stoi(atributos[coluna["NR_CANDIDATO"]]);
-    nome = trim_copy(atributos[coluna["NM_UNRNA_CANDIDATO"]]);
+    nome = trim_copy(atributos[coluna["NM_URNA_CANDIDATO"]]);
+   
     numeroFederacao = stoi(atributos[coluna["NR_FEDERACAO"]]);
-
+   
     switch (stoi(atributos[coluna["CD_GENERO"]]))
     {
     case 2:
@@ -195,14 +197,13 @@ void readConsultaCand(SistemaEleitoral &sisEleitoral)
     {
         string linha_utf8 = iso_8859_1_to_utf8(linha);
         vector<string> atributos = split(linha_utf8);
-        Partido *partido = criaPartido(atributos, coluna, (sisEleitoral.getPartidos()));
+        Partido *partido = criaPartido(atributos, coluna, sisEleitoral.getPartidos());
         criaCandidato(atributos, coluna, sisEleitoral, *partido);
     
         linha = "";
     }
     //sisEleitoral.printPartidos(sisEleitoral);
 }
-
 static void contaVotos(vector<string> &atributos, map<string, int> &coluna, SistemaEleitoral &sisEleitoral)
 {
 

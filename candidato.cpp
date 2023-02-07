@@ -51,12 +51,13 @@ Partido Candidato::getPartido() const{
 ostream& operator<<(ostream& os, const Candidato& c) {
     //set locale to ptbr
     if (c.getNumeroFederacao() == -1) {
-        os << c.getNome() << " (" << c.getPartido().getSigla() << ", " << c.getNumeroDeVotos() << " votos)";
-        return os; 
+        os << c.getNome() << " (" << c.getPartido().getSigla() << ", " << c.getNumeroDeVotos() << " votos)";        
     }
     else {
         os << "*" << c.getNome() << " (" << c.getPartido().getSigla() << ", " << c.getNumeroDeVotos() << " votos)";
     }
+
+    return os;
 }
 
 bool Candidato::operator<(const Candidato &c) {

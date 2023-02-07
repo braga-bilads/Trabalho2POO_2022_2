@@ -4,7 +4,7 @@
 #include "date.hpp"
 #include "sistemaeleitoral.hpp"
 #include "processamentoArq.hpp"
-
+#include "saida.hpp"
 #include <string>
 
 using namespace std;
@@ -30,7 +30,7 @@ int main(int argc, const char** argv) {
     
     readConsultaCand(sisEleitoral);
     readVotos(sisEleitoral);
-
+    geraSaida(sisEleitoral);
 
 
     return 0;

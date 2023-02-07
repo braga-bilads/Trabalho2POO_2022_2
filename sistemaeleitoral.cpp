@@ -33,37 +33,37 @@ void SistemaEleitoral::incTotalVotosLegenda(int qtd)
 void SistemaEleitoral::incTotalVotosNominais(int qtd) {
     this->totalVotosNominais +=qtd;
 }
-int SistemaEleitoral::getTotalVotosLegenda() {
+int SistemaEleitoral::getTotalVotosLegenda() const {
     return this->totalVotosLegenda;
 }
-int SistemaEleitoral::getTotalVotosNominais() {
+int SistemaEleitoral::getTotalVotosNominais() const {
     return this->totalVotosNominais;
 }
-int SistemaEleitoral::getQtdVagas() {
+int SistemaEleitoral::getQtdVagas() const {
     return this->qtdVagas;
 }
 void SistemaEleitoral::incrementaQtdVagas() {
     this->qtdVagas++;
 }
-Date& SistemaEleitoral::getDataDaEleicao() {
+Date& SistemaEleitoral::getDataDaEleicao() const {
     return *this->dataDaEleicao;
 }
-string SistemaEleitoral::getPathConsulta() {
+string SistemaEleitoral::getPathConsulta() const {
     return *this->pathConsulta;
 }
-string SistemaEleitoral::getPathVotos() {
+string SistemaEleitoral::getPathVotos() const {
     return *this->pathConsulta;
 }
-void SistemaEleitoral::addCandidato(Candidato &c) {
-    cout<<c.getNumeroVotavel()  << " " << c.getNome() << " " << c.getGenero()<< endl;
+void SistemaEleitoral::addCandidato(Candidato &c) {    
+    // cout<<c.getNumeroVotavel()  << " " << c.getNome() << " " << c.getGenero()<< endl;
     candidatos.insert({(c).getNumeroVotavel(), &c});
 }
 
-map<int,Partido*>& SistemaEleitoral::getPartidos(){
+map<int,Partido*> &SistemaEleitoral::getPartidos() {
     return partidos;
 }
 
-map<int,Candidato*>& SistemaEleitoral::getCandidatos(){
+map<int,Candidato*> SistemaEleitoral::getCandidatos() const {
     return candidatos;
 }
 

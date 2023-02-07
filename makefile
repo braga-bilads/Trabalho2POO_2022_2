@@ -46,4 +46,4 @@ runestadual: $(EXECUTAVEL)
 
 # comando para limpeza
 clean:
-	@rm *.o $(EXECUTAVEL) *.txt
+	@rm *.o $(EXECUTAVEL)

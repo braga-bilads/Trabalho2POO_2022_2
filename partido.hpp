@@ -46,4 +46,6 @@ public:
 
 };
 
+ostream &operator<<(ostream &os, const Partido &p);
+
 #endif
