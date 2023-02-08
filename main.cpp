@@ -9,10 +9,6 @@
 
 using namespace std;
 
-void swap(string &str1, string &str2) {
-    return;
-}
-
 int main(int argc, const char** argv) {
     
     if (argc != 5)  {

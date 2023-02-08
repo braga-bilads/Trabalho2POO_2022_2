@@ -35,10 +35,6 @@ int Date::getAno() const
     return this->ano;
 }
 
-Date::~Date()
-{
-}
-
 ostream& operator<<(ostream& os, const Date& d) {
     os << d.getDia() << '/' << d.getMes() << '/' << d.getAno() << endl;
     return os;

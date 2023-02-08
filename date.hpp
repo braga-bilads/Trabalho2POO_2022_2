@@ -10,13 +10,13 @@ private:
     int ano;
 
 public:
-    Date();
+
     Date(string &data);
 
     int getDia() const;
     int getMes() const;
     int getAno() const;   
-    ~Date();
+
 };
 
 

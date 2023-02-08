@@ -19,6 +19,7 @@ private:
 public:
     Pessoa(string nome, string genero, Date &dataDeNascimento, Date &dataAtual);
     string getNome() const;
+    Date* getDataDeNascimento();
     string getGenero() const;
     ~Pessoa();
 };

@@ -44,6 +44,7 @@ public:
     Partido* getPartido(int numPartido);
     Candidato* getCandidato(int num);
     int candidatosCount(int numero);
+    ~SistemaEleitoral();
     
 };
 

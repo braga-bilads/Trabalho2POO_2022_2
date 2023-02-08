@@ -67,3 +67,7 @@ bool Candidato::operator<(const Candidato &c) {
     }
     return valor < 0;
 }
+
+Candidato::~Candidato(){
+    delete this->getDataDeNascimento();
+}

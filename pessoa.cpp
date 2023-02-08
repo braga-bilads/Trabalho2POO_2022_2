@@ -35,10 +35,16 @@ string Pessoa::getNome() const
 {
     return this->nome;
 }
+Date *Pessoa::getDataDeNascimento()
+{
+    return this->dataDeNascimento;
+}
 string Pessoa::getGenero() const
 {
     return this->genero;
 }
+
 Pessoa::~Pessoa()
 {
+    
 }

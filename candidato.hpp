@@ -36,7 +36,7 @@ public:
     bool isEleito_e_Deferido() const;
     Partido getPartido() const;
     bool operator<(const Candidato &c);
-    
+    ~Candidato();
     
 };
 ostream& operator<<(ostream& os, const Candidato& c);

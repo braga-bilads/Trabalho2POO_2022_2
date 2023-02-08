@@ -199,7 +199,7 @@ void readConsultaCand(SistemaEleitoral &sisEleitoral)
         vector<string> atributos = split(linha_utf8);
         Partido *partido = criaPartido(atributos, coluna, sisEleitoral);
         criaCandidato(atributos, coluna, sisEleitoral, partido);
-    
+
         linha = "";
     }
     //sisEleitoral.printPartidos(sisEleitoral);

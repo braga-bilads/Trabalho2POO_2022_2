@@ -96,3 +96,14 @@ Candidato* SistemaEleitoral::getCandidato(int num){
 int SistemaEleitoral::candidatosCount(int numero){
     return candidatos.count(numero);
 }
+
+SistemaEleitoral::~SistemaEleitoral(){
+    delete this->dataDaEleicao;
+    for(auto it = this->partidos.begin(); it != partidos.end() ; it++){
+        delete(it->second);
+    }
+    for(auto it = this->candidatos.begin(); it != candidatos.end() ; it++){
+        it->second->~Candidato();
+        delete(it->second);
+    }
+}
