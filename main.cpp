@@ -26,6 +26,7 @@ int main(int argc, const char** argv) {
     
     Date d(data);
     
+    
     SistemaEleitoral sisEleitoral(numeroCargo, pathConsulta, pathVotos, d);
     
     readConsultaCand(sisEleitoral);

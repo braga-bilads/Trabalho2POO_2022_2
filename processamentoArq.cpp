@@ -100,23 +100,23 @@ map<string, int> criaMapaCabealho(string &str)
     return map;
 }
 
-static Partido *criaPartido(vector<string> &atributos, map<string, int> &coluna, map<int, Partido *> &partidos)
+static Partido *criaPartido(vector<string> &atributos, map<string, int> &coluna, SistemaEleitoral & sisEleitoral)
 {
     int numPartido;
     string siglaPartido;
 
     numPartido = stoi(atributos[coluna["NR_PARTIDO"]]);
 
-    if (!partidos.count(numPartido))
+    if (!sisEleitoral.partidosCount(numPartido))
     {
         // cria um novo partido
         siglaPartido = atributos[coluna["SG_PARTIDO"]];
-        partidos.insert({numPartido, new Partido(numPartido, siglaPartido)});
+        sisEleitoral.addPartido(pair{numPartido, new Partido(numPartido, siglaPartido)});
     }
-    return partidos[numPartido]; // ja existe
+    return sisEleitoral.getPartido(numPartido); // ja existe
 }
 
-static void criaCandidato(vector<string> &atributos, map<string, int> &coluna, SistemaEleitoral &sisEleitoral, Partido &p)
+static void criaCandidato(vector<string> &atributos, map<string, int> &coluna, SistemaEleitoral &sisEleitoral, Partido *p)
 {
 
     int nCargo = sisEleitoral.getNumeroCargo();
@@ -167,8 +167,8 @@ static void criaCandidato(vector<string> &atributos, map<string, int> &coluna, S
     if (stoi(atributos[coluna["CD_SIT_TOT_TURNO"]]) == 3 || stoi(atributos[coluna["CD_SIT_TOT_TURNO"]]) == 2)
     {
         sisEleitoral.incrementaQtdVagas();
-        p.incrementaQuantidadeDeVagas();
-        p.incrementaEleitos();
+        p->incrementaQuantidadeDeVagas();
+        p->incrementaEleitos();
         eleito = true;
     }
     else
@@ -197,8 +197,8 @@ void readConsultaCand(SistemaEleitoral &sisEleitoral)
     {
         string linha_utf8 = iso_8859_1_to_utf8(linha);
         vector<string> atributos = split(linha_utf8);
-        Partido *partido = criaPartido(atributos, coluna, sisEleitoral.getPartidos());
-        criaCandidato(atributos, coluna, sisEleitoral, *partido);
+        Partido *partido = criaPartido(atributos, coluna, sisEleitoral);
+        criaCandidato(atributos, coluna, sisEleitoral, partido);
     
         linha = "";
     }
@@ -217,17 +217,20 @@ static void contaVotos(vector<string> &atributos, map<string, int> &coluna, Sist
 
     int votos = stoi(atributos[coluna["QT_VOTOS"]]);
 
-    if((sisEleitoral.getCandidatos()).count(numero) == 0){
-        if ((sisEleitoral.getPartidos()).count(numero) != 0)
+    if(sisEleitoral.candidatosCount(numero) == 0){
+        if ((sisEleitoral.partidosCount(numero)) != 0)
         {
-            Partido* p = (sisEleitoral.getPartidos())[numero];
+            Partido* p = sisEleitoral.getPartido(numero);
             p->incrementaVotosLegenda(votos);
             sisEleitoral.incTotalVotosLegenda(votos);
         }
-        else return;
+        else{
+            return;
+        } 
+            
     }
     else{
-        Candidato* c = ((sisEleitoral.getCandidatos())[numero]);
+        Candidato* c = (sisEleitoral.getCandidato(numero));
         c->incrementaNumeroVotos(votos);
 
         if (!c->isLegenda())
@@ -236,7 +239,6 @@ static void contaVotos(vector<string> &atributos, map<string, int> &coluna, Sist
         }
         else
             sisEleitoral.incTotalVotosLegenda(votos);
-
     }
 }
 

@@ -36,9 +36,14 @@ public:
     string getPathConsulta() const;
     string getPathVotos() const;
     void addCandidato(Candidato &c);
-    map<int,Partido*>& getPartidos();
+    map<int,Partido*> getPartidos() const;
     map<int,Candidato*> getCandidatos() const;
     void printPartidos(SistemaEleitoral &sisEleitoral);
+    int partidosCount(int numPartido);
+    void addPartido(pair<int,Partido*> par);
+    Partido* getPartido(int numPartido);
+    Candidato* getCandidato(int num);
+    int candidatosCount(int numero);
     
 };
 

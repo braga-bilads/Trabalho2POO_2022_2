@@ -14,7 +14,7 @@ private:
     int tipoDeputado;
     int numeroVotavel;
     bool eleito;
-    int numeroDeVotos;
+    int numeroDeVotos = 0;
     int numeroFederacao;
     bool legenda;
     bool deferido;
@@ -22,7 +22,7 @@ private:
 
 public:
     Candidato(string nome, string genero, Date& dataDeNascimento, int tipoDeputado, int numeroVotavel,
-              bool eleito, int numeroFederacao, bool legenda, Partido& partido,
+              bool eleito, int numeroFederacao, bool legenda, Partido* partido,
               Date& dataAtual, bool deferido);
     
     int getTipoDeputado() const;
