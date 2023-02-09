@@ -81,6 +81,11 @@ int SistemaEleitoral::partidosCount(int numPartido){
     return this->partidos.count(numPartido);
 }
 
+bool SistemaEleitoral::partidoExiste(int numero){
+    auto it = candidatos.find(numero);
+    return it->second ? true: false;
+}
+
 void SistemaEleitoral::addPartido(pair<int,Partido*> par){
     partidos.insert(par);
 }
@@ -97,13 +102,7 @@ int SistemaEleitoral::candidatosCount(int numero){
     return candidatos.count(numero);
 }
 
-SistemaEleitoral::~SistemaEleitoral(){
-    delete this->dataDaEleicao;
-    for(auto it = this->partidos.begin(); it != partidos.end() ; it++){
-        delete(it->second);
-    }
-    for(auto it = this->candidatos.begin(); it != candidatos.end() ; it++){
-        it->second->~Candidato();
-        delete(it->second);
-    }
+bool SistemaEleitoral::candidatoExiste(int numero){
+    auto it = candidatos.find(numero);
+    return it->second ? true: false;
 }

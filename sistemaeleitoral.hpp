@@ -44,8 +44,23 @@ public:
     Partido* getPartido(int numPartido);
     Candidato* getCandidato(int num);
     int candidatosCount(int numero);
-    ~SistemaEleitoral();
+    bool candidatoExiste(int numero);
+    bool partidoExiste(int numero);
     
+    virtual ~SistemaEleitoral(){
+
+        if(&(this->partidos) != NULL)
+            for(auto it = this->partidos.begin(); it != partidos.end() ; it++){
+                if(it->second)
+                    delete it->second;
+            }
+        if(&this->candidatos!= NULL)
+            for(auto it = this->candidatos.begin(); it != candidatos.end() ; it++){
+                if(it->second)
+                    delete it->second;
+            }
+    }
+
 };
 
 #endif

@@ -43,8 +43,3 @@ string Pessoa::getGenero() const
 {
     return this->genero;
 }
-
-Pessoa::~Pessoa()
-{
-    
-}

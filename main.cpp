@@ -29,6 +29,5 @@ int main(int argc, const char** argv) {
     readVotos(sisEleitoral);
     geraSaida(sisEleitoral);
 
-
     return 0;
 }

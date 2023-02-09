@@ -107,7 +107,7 @@ static Partido *criaPartido(vector<string> &atributos, map<string, int> &coluna,
 
     numPartido = stoi(atributos[coluna["NR_PARTIDO"]]);
 
-    if (!sisEleitoral.partidosCount(numPartido))
+    if (!sisEleitoral.partidoExiste(numPartido))
     {
         // cria um novo partido
         siglaPartido = atributos[coluna["SG_PARTIDO"]];
@@ -217,8 +217,8 @@ static void contaVotos(vector<string> &atributos, map<string, int> &coluna, Sist
 
     int votos = stoi(atributos[coluna["QT_VOTOS"]]);
 
-    if(sisEleitoral.candidatosCount(numero) == 0){
-        if ((sisEleitoral.partidosCount(numero)) != 0)
+    if(sisEleitoral.candidatoExiste(numero) == 0){
+        if ((sisEleitoral.partidoExiste(numero)) != 0)
         {
             Partido* p = sisEleitoral.getPartido(numero);
             p->incrementaVotosLegenda(votos);

@@ -140,6 +140,3 @@ bool Partido::operator<(const Partido &p) {
     return valor < 0;
 }
 
-Partido::~Partido()
-{
-}

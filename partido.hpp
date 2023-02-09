@@ -41,7 +41,6 @@ public:
     void incrementaEleitos();
     bool operator<(const Partido &p);   
 
-    ~Partido();
 };
 
 ostream &operator<<(ostream &os, const Partido &p);

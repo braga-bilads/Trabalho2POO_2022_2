@@ -21,7 +21,10 @@ public:
     string getNome() const;
     Date* getDataDeNascimento();
     string getGenero() const;
-    ~Pessoa();
+    virtual ~Pessoa(){
+        if(this->dataDeNascimento)     
+            delete this->dataDeNascimento; 
+    } 
 };
 
 #endif
