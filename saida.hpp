@@ -2,7 +2,7 @@
 #define SAIDA_H
 #include "sistemaeleitoral.hpp"
 
-void geraSaida(SistemaEleitoral sisEleitoral);
+void geraSaida(SistemaEleitoral &sisEleitoral);
 
 
 #endif
