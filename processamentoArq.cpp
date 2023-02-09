@@ -111,7 +111,7 @@ static Partido *criaPartido(vector<string> &atributos, map<string, int> &coluna,
     {
         // cria um novo partido
         siglaPartido = atributos[coluna["SG_PARTIDO"]];
-        sisEleitoral.addPartido(pair{numPartido, new Partido(numPartido, siglaPartido)});
+        sisEleitoral.addPartido(make_pair(numPartido, new Partido(numPartido, siglaPartido)));
     }
     return sisEleitoral.getPartido(numPartido); // ja existe
 }
@@ -173,7 +173,7 @@ static void criaCandidato(vector<string> &atributos, map<string, int> &coluna, S
     }
     else
         eleito = false;
-    sisEleitoral.addCandidato(*(new Candidato(nome, genero, *(new Date(atributos[coluna["DT_NASCIMENTO"]])), tipoDeputado, numeroVotavel, eleito,
+    sisEleitoral.addCandidato(*(new Candidato(nome, genero, Date(atributos[coluna["DT_NASCIMENTO"]]), tipoDeputado, numeroVotavel, eleito,
                                               numeroFederacao, legenda, p, sisEleitoral.getDataDaEleicao(), deferido)));
 }
 
@@ -258,8 +258,8 @@ void readVotos(SistemaEleitoral &sisEleitoral)
 
     while (getline(votosFIle, linha))
     {
-        string linha_utf8 = iso_8859_1_to_utf8(linha);
-        vector<string> atributos = split(linha_utf8);
+        //string linha_utf8 = iso_8859_1_to_utf8(linha);
+        vector<string> atributos = split(linha);
 
         contaVotos(atributos, coluna, sisEleitoral);
 

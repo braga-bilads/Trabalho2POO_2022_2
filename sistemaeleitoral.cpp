@@ -1,7 +1,7 @@
 #include <iostream>
 #include "sistemaeleitoral.hpp"
 
-SistemaEleitoral::SistemaEleitoral(string &numeroCargo, string &pathConsulta, string &pathVotos, Date &dataDaEleicao) {
+SistemaEleitoral::SistemaEleitoral(string &numeroCargo, string &pathConsulta, string &pathVotos, Date dataDaEleicao) {
     int cargo = 0;
     if (numeroCargo.compare("--estadual") == 0) {
         cargo = 7;
@@ -14,7 +14,7 @@ SistemaEleitoral::SistemaEleitoral(string &numeroCargo, string &pathConsulta, st
         exit(EXIT_FAILURE);               
     }
     this->numeroCargo = cargo;
-    this->dataDaEleicao = &dataDaEleicao;
+    this->dataDaEleicao = dataDaEleicao;
     this->pathConsulta = &pathConsulta;
     this->pathVotos = &pathVotos;
     this->qtdVagas = 0;    
@@ -45,8 +45,8 @@ int SistemaEleitoral::getQtdVagas() const {
 void SistemaEleitoral::incrementaQtdVagas() {
     this->qtdVagas++;
 }
-Date& SistemaEleitoral::getDataDaEleicao() const {
-    return *this->dataDaEleicao;
+Date SistemaEleitoral::getDataDaEleicao() const {
+    return this->dataDaEleicao;
 }
 string SistemaEleitoral::getPathConsulta() const {
     return *this->pathConsulta;
@@ -82,8 +82,8 @@ int SistemaEleitoral::partidosCount(int numPartido){
 }
 
 bool SistemaEleitoral::partidoExiste(int numero){
-    auto it = candidatos.find(numero);
-    return it->second ? true: false;
+    auto it = partidos.find(numero);
+      return !(it==partidos.end());
 }
 
 void SistemaEleitoral::addPartido(pair<int,Partido*> par){
@@ -104,5 +104,5 @@ int SistemaEleitoral::candidatosCount(int numero){
 
 bool SistemaEleitoral::candidatoExiste(int numero){
     auto it = candidatos.find(numero);
-    return it->second ? true: false;
+    return !(it==candidatos.end());
 }

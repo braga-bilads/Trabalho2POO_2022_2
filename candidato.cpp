@@ -1,8 +1,8 @@
 #include "candidato.hpp"
 #include "pessoa.hpp"
-Candidato::Candidato(string nome, string genero, Date &dataDeNascimento, int tipoDeputado, int numeroVotavel,
+Candidato::Candidato(string nome, string genero, Date dataDeNascimento, int tipoDeputado, int numeroVotavel,
                      bool eleito, int numeroFederacao, bool legenda, Partido *partido,
-                     Date &dataAtual, bool deferido) : Pessoa(nome, genero, dataDeNascimento, dataAtual), tipoDeputado(tipoDeputado),
+                     Date dataAtual, bool deferido) : Pessoa(nome, genero, dataDeNascimento, dataAtual), tipoDeputado(tipoDeputado),
                                                        numeroVotavel(numeroVotavel), eleito(eleito), numeroFederacao(numeroFederacao), 
                                                        legenda(legenda), deferido(deferido), partido(partido) {    }
 

@@ -14,17 +14,15 @@ private:
     int idade;
     string nome;
     string genero;
-    Date *dataDeNascimento;   
+    Date dataDeNascimento;   
 
 public:
-    Pessoa(string nome, string genero, Date &dataDeNascimento, Date &dataAtual);
+    Pessoa(string nome, string genero, Date dataDeNascimento, Date dataAtual);
     string getNome() const;
-    Date* getDataDeNascimento();
+    Date getDataDeNascimento();
     string getGenero() const;
-    virtual ~Pessoa(){
-        if(this->dataDeNascimento)     
-            delete this->dataDeNascimento; 
-    } 
+    int getIdade() const;
+
 };
 
 #endif

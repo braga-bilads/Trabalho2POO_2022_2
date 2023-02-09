@@ -15,7 +15,7 @@ private:
     map<int, Partido *> partidos;
     map<int, Candidato *> candidatos;
     int numeroCargo;
-    Date *dataDaEleicao;
+    Date dataDaEleicao;
     int qtdVagas;
     string *pathConsulta;
     string *pathVotos;
@@ -23,7 +23,7 @@ private:
     int totalVotosNominais;
 
 public:
-    SistemaEleitoral(string &numeroCargo, string &pathConsulta, string &pathVotos, Date &dataDaEleicao);
+    SistemaEleitoral(string &numeroCargo, string &pathConsulta, string &pathVotos, Date dataDaEleicao);
 
     int getNumeroCargo();
     void incTotalVotosLegenda(int qtd);
@@ -32,7 +32,7 @@ public:
     int getTotalVotosNominais() const;
     int getQtdVagas() const;
     void incrementaQtdVagas();
-    Date& getDataDaEleicao() const;
+    Date getDataDaEleicao() const;
     string getPathConsulta() const;
     string getPathVotos() const;
     void addCandidato(Candidato &c);
@@ -47,18 +47,13 @@ public:
     bool candidatoExiste(int numero);
     bool partidoExiste(int numero);
     
-    virtual ~SistemaEleitoral(){
-
-        if(&(this->partidos) != NULL)
-            for(auto it = this->partidos.begin(); it != partidos.end() ; it++){
-                if(it->second)
-                    delete it->second;
-            }
-        if(&this->candidatos!= NULL)
-            for(auto it = this->candidatos.begin(); it != candidatos.end() ; it++){
-                if(it->second)
-                    delete it->second;
-            }
+    ~SistemaEleitoral(){
+        for(auto it = this->partidos.begin(); it != partidos.end() ; it++){
+            delete it->second;
+        }
+        for(auto it = this->candidatos.begin(); it != candidatos.end() ; it++){
+            delete it->second;
+        }
     }
 
 };

@@ -10,7 +10,7 @@ private:
     int ano;
 
 public:
-
+    Date(){ dia = 0; mes = 0; ano = 0; }
     Date(string &data);
 
     int getDia() const;

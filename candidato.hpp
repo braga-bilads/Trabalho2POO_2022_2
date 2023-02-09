@@ -21,9 +21,9 @@ private:
     Partido* partido;
 
 public:
-    Candidato(string nome, string genero, Date& dataDeNascimento, int tipoDeputado, int numeroVotavel,
+    Candidato(string nome, string genero, Date dataDeNascimento, int tipoDeputado, int numeroVotavel,
               bool eleito, int numeroFederacao, bool legenda, Partido* partido,
-              Date& dataAtual, bool deferido);
+              Date dataAtual, bool deferido);
     
     int getTipoDeputado() const;
     int getNumeroVotavel() const;
