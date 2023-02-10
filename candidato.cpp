@@ -61,10 +61,11 @@ ostream& operator<<(ostream& os, const Candidato& c) {
     return os;
 }
 
-bool Candidato::operator<(const Candidato &c) {
-    int valor = c.getNumeroDeVotos() - this->numeroDeVotos;
+bool Candidato::operator<(const Candidato *c) {
+    
+    int valor = c->getNumeroDeVotos() - this->numeroDeVotos;
     if (valor == 0) {
-        return c.getIdade() - this->getIdade();
+        return (c->getIdade() - this->getIdade()) > 0;
     }
-    return valor < 0;
+    return valor > 0;
 }
