@@ -39,6 +39,7 @@ public:
     
 };
 ostream& operator<<(ostream& os, const Candidato& c);
+bool compCand(Candidato *c1, Candidato *c2);
 
 
 #endif

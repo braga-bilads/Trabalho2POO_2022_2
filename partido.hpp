@@ -40,10 +40,9 @@ public:
     void setCandidatoMenoseMaisVotado(); // ordena os candidatos e seta o mais e menos votado
     void incrementaEleitos();
     void printCandidatos();
-    bool operator<(const Partido &p);   
 
 };
-
+bool ComparaPartidoTotalVotos(Partido *p1, Partido*p2);
 ostream &operator<<(ostream &os, const Partido &p);
 
 #endif

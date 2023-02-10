@@ -77,8 +77,9 @@ void Partido::setCandidatoMenoseMaisVotado()
     {
         candMaisvotado = NULL;
         candMenosvotado = NULL;
+        return;
     }
-    sort(candidatosList.begin(), candidatosList.end());   
+    sort(candidatosList.begin(), candidatosList.end(), compCand);   
     
     int i = 1;
     
@@ -130,12 +131,13 @@ ostream &operator<<(ostream &os, const Partido &p)
     return os << saida;
 }
 
-bool Partido::operator<(const Partido &p)
+bool ComparaPartidoTotalVotos(Partido *p1, Partido*p2)
 {
-    int valor = this->getQuantidadeTotalDeVotos() - p.getQuantidadeTotalDeVotos();
+    int valor = p1->getQuantidadeTotalDeVotos() - p2->getQuantidadeTotalDeVotos();
     if (valor == 0)
     {
-        return (p.getNumeroVotavel() - this->numero_votavel) < 0;
+        return (p1->getNumeroVotavel() - p2->getNumeroVotavel()) < 0;
     }
     return valor < 0;
 }
+

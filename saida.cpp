@@ -1,5 +1,6 @@
 #include "saida.hpp"
 #include <ostream>
+#include <iomanip>
 #include <map>
 #include <list>
 
@@ -15,12 +16,6 @@ static list<Candidato *> getValuesCand(map<int, Candidato *> candidatos)
     return l;
 }
 
-bool compCand(Candidato *c1, Candidato *c2) {
-    if (c1->getNumeroDeVotos() == c2->getNumeroDeVotos()) {
-        return c1->getIdade() > c2->getIdade();
-    }
-    return c1->getNumeroDeVotos() > c2->getNumeroDeVotos();
-}
 
 static list<Partido *> getValuesPartido(map<int, Partido *> partidos)
 {
@@ -34,13 +29,14 @@ static list<Partido *> getValuesPartido(map<int, Partido *> partidos)
     return l;
 }
 
-static string porcentagem(double a, double b)
+static double porcentagem(double a, double b)
 {
-    return "(" + to_string(a / b * 100) + "%)";
+    return (a / b * 100);
 }
 
 void geraSaida(SistemaEleitoral &sisEleitoral)
-{
+{   
+    cout.imbue(locale("pt_BR.UTF-8"));
     int qntdEleitos = sisEleitoral.getQtdVagas();
     cout << "Numero de vagas: " << qntdEleitos << endl
          << endl;
@@ -138,7 +134,7 @@ void geraSaida(SistemaEleitoral &sisEleitoral)
 
         if (p->getQuantidadeTotalDeVotos() != 0)
         {
-            // p->setCandidatoMenoseMaisVotado();
+            p->setCandidatoMenoseMaisVotado();
             partidosComVotos.push_back(p);
         }
     }
@@ -149,28 +145,31 @@ void geraSaida(SistemaEleitoral &sisEleitoral)
 
     i = 1;
 
-    // for (Partido *p : partidosComVotos)
-    // {
-    //     Candidato *cMaisVotado = p->getCandMaisVotado();
-    //     Candidato *cMenosVotado = p->getCandMenosVotado();
-    //     if (cMaisVotado == NULL || cMenosVotado == NULL)
-    //     {
-    //         continue;
-    //     }
-    //     string votos = "";
-    //     if (cMenosVotado->getNumeroDeVotos() > 1)
-    //     {
-    //         votos = " votos)";
-    //     }
-    //     else
-    //     {
-    //         votos = " voto)";
-    //     }
-    //     string saida = to_string(i) + " - " + p->getSigla() + " - " + to_string(p->getNumeroVotavel()) + ", " + cMaisVotado->getNome() + " (" + to_string(cMaisVotado->getNumeroVotavel()) + ", " + to_string(cMaisVotado->getNumeroDeVotos()) + " votos" + ") / " +
-    //                    cMenosVotado->getNome() + " (" + to_string(cMenosVotado->getNumeroVotavel()) + ", " + to_string(cMenosVotado->getNumeroDeVotos()) + votos;
-    //     cout << saida << endl;
-    //     i++;
-    // }
+    for (Partido *p : partidosComVotos)
+    {
+        Candidato *cMaisVotado = p->getCandMaisVotado();
+        Candidato *cMenosVotado = p->getCandMenosVotado();
+        if (cMaisVotado == NULL || cMenosVotado == NULL)
+        {
+            continue;
+        }
+        string votos = "";
+        if (cMenosVotado->getNumeroDeVotos() > 1)
+        {
+            votos = " votos)";
+        }
+        else
+        {
+            votos = " voto)";
+        }
+        
+        cout << to_string(i) + " - " + p->getSigla() + " - " << p->getNumeroVotavel() << ", " << cMaisVotado->getNome() << " (" 
+             << cMaisVotado->getNumeroVotavel() << ", " << cMaisVotado->getNumeroDeVotos() << " votos" << ") / " 
+             <<  cMenosVotado->getNome() << " (" << cMenosVotado->getNumeroVotavel() << ", " << cMenosVotado->getNumeroDeVotos() 
+             << votos << endl;
+    
+        i++;
+    }
 
     int masculino = 0, feminino = 0;
     int menorque30 = 0, entre30e40 = 0, entre40e50 = 0, entre50e60 = 0, maiorque60 = 0;
@@ -203,26 +202,27 @@ void geraSaida(SistemaEleitoral &sisEleitoral)
     // imprime a faixa etária e a porcentagem de cada faixa etária com a quantidade
     // de eletios
     // o mesmo é feito para cada gênero
-
-    cout << "      Idade < 30: " << menorque30 << " " << porcentagem((double)menorque30, (double)qntdEleitos) << endl;
-    cout << "30 <= Idade < 40: " << entre30e40 << " " << porcentagem((double)entre30e40, (double)qntdEleitos) << endl;
+    cout<<fixed<<setprecision(2);
+    cout << "      Idade < 30: " << menorque30 << " ("<< porcentagem((double)menorque30, (double)qntdEleitos)<<"%)" << endl;
+    cout << "30 <= Idade < 40: " << entre30e40 << " ("<< porcentagem((double)entre30e40, (double)qntdEleitos)<<"%)" << endl;
     
-    cout << "40 <= Idade < 50: " << entre40e50 << " " << porcentagem((double)entre40e50, (double)qntdEleitos) << endl;
+    cout << "40 <= Idade < 50: " << entre40e50 << " (" << porcentagem((double)entre40e50, (double)qntdEleitos)<<"%)" << endl;
     
-    cout << "50 <= Idade < 60: " << entre50e60 << " " << porcentagem((double)entre50e60, (double)qntdEleitos) << endl;
+    cout << "50 <= Idade < 60: " << entre50e60 << " (" << porcentagem((double)entre50e60, (double)qntdEleitos)<<"%)" << endl;
     
-    cout << "60 <= Idade     : " << maiorque60 << " " << porcentagem((double)maiorque60, (double)qntdEleitos) << endl;
+    cout << "60 <= Idade     : " << maiorque60 << " (" << porcentagem((double)maiorque60, (double)qntdEleitos)<<"%)" << endl;
     
 
     cout << "\nEleitos, por gênero:";
-    cout << "Feminino: " << feminino << " " << porcentagem((double)feminino, (double)qntdEleitos) << endl;
-    cout << "Masculino: " << masculino << " " << porcentagem((double)masculino, (double)qntdEleitos) << endl;
+    cout << "Feminino: " << feminino << " (" << porcentagem((double)feminino, (double)qntdEleitos)<<"%)" << endl;
+    cout << "Masculino: " << masculino << " (" << porcentagem((double)masculino, (double)qntdEleitos)<<"%)" << endl;
 
     int numVotosNominais = sisEleitoral.getTotalVotosNominais();
     int numVotosLegenda = sisEleitoral.getTotalVotosLegenda();
     int numVotosTotais = numVotosLegenda + numVotosNominais;
 
     cout << "\nTotal de votos válidos:    " << numVotosTotais << endl;
-    cout << "Total de votos nominais:   " << numVotosNominais << " " << porcentagem(numVotosNominais, numVotosTotais);
-    cout << "Total de votos de legenda: " << " " << porcentagem(numVotosLegenda, numVotosTotais);
+    cout << "Total de votos nominais:   " << numVotosNominais << " (" << porcentagem(numVotosNominais, numVotosTotais)<<"%)"<<endl;
+    cout << "Total de votos de legenda: " << numVotosLegenda <<" (" << porcentagem(numVotosLegenda, numVotosTotais)<<"%)" <<endl;
+    cout.imbue(locale("C"));
 }

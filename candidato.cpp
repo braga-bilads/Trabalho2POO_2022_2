@@ -75,3 +75,10 @@ bool Candidato::operator<(const Candidato *c) {
     }
     return valor > 0;
 }
+
+bool compCand(Candidato *c1, Candidato *c2) {
+    if (c1->getNumeroDeVotos() == c2->getNumeroDeVotos()) {
+        return c1->getIdade() > c2->getIdade();
+    }
+    return c1->getNumeroDeVotos() > c2->getNumeroDeVotos();
+}
