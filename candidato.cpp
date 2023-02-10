@@ -36,7 +36,13 @@ bool Candidato::isDeferido() const
 }
 void Candidato::incrementaNumeroVotos(int qtdVotos)
 {
-    numeroDeVotos += qtdVotos;
+    this->numeroDeVotos += qtdVotos;
+
+    if (this->legenda) {
+        partido->incrementaVotosLegenda(qtdVotos);
+    } else {
+        partido->incrementaVotosNominais(qtdVotos);
+    }
 }
 bool Candidato::isEleito_e_Deferido() const
 {

@@ -18,7 +18,8 @@ SistemaEleitoral::SistemaEleitoral(string &numeroCargo, string pathConsulta, str
     this->pathConsulta = pathConsulta;
     this->pathVotos = pathVotos;
     this->qtdVagas = 0;    
-
+    this->totalVotosLegenda=0;
+    this->totalVotosNominais=0;
 }
 
 int SistemaEleitoral::getNumeroCargo()

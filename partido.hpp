@@ -4,18 +4,18 @@
 #include <string>
 #include "candidato.hpp"
 #include <map>
+#include <list>
 using namespace std;
 class Candidato;
 
 class Partido // implementa um comparador
 {
 private:
-    map<int, Candidato *> candidatos;
+    list<Candidato *> candidatos;
     int numero_votavel;
     string sigla;
     int quantidadeDeVotosNominais;
     int quantidadeDeVotosLegenda;
-    int quantidadeTotalDeVotos;
     int quantidadeDeEleitos;
     int quantidadeDeVagas;
     Candidato *candMaisvotado;

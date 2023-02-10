@@ -123,7 +123,6 @@ static Partido *criaPartido(vector<string> &atributos, map<string, int> &coluna,
     }
     return sisEleitoral.getPartido(numPartido); // ja existe
 }
-int i = 1;
 
 static void criaCandidato(vector<string> &atributos, map<string, int> &coluna, SistemaEleitoral &sisEleitoral, Partido *p)
 {
@@ -178,7 +177,6 @@ static void criaCandidato(vector<string> &atributos, map<string, int> &coluna, S
     
     if (x == 3 || x == 2)
     {       
-        
         sisEleitoral.incrementaQtdVagas();
         p->incrementaQuantidadeDeVagas();
         p->incrementaEleitos();
@@ -186,8 +184,12 @@ static void criaCandidato(vector<string> &atributos, map<string, int> &coluna, S
     }
     else
         eleito = false;
-    sisEleitoral.addCandidato(*(new Candidato(nome, genero, Date(atributos[coluna["DT_NASCIMENTO"]]), tipoDeputado, numeroVotavel, eleito,
-                                              numeroFederacao, legenda, p, sisEleitoral.getDataDaEleicao(), deferido)));
+
+    Candidato* c = (new Candidato(nome, genero, Date(atributos[coluna["DT_NASCIMENTO"]]), tipoDeputado, numeroVotavel, eleito,
+                                 numeroFederacao, legenda, p, sisEleitoral.getDataDaEleicao(), deferido));
+
+    sisEleitoral.addCandidato(*c);
+    p->addCandidato(*c);
 }
 
 void readConsultaCand(SistemaEleitoral &sisEleitoral)
@@ -221,7 +223,6 @@ void readConsultaCand(SistemaEleitoral &sisEleitoral)
 }
 static void contaVotos(vector<string> &atributos, map<string, int> &coluna, SistemaEleitoral &sisEleitoral)
 {
-
 
     if (stoi(atributos[coluna["CD_CARGO"]]) != sisEleitoral.getNumeroCargo()){
         return;

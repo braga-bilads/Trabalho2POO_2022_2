@@ -8,6 +8,10 @@ Partido::Partido(int numero_votavel, string sigla)
 {
     this->numero_votavel = numero_votavel;
     this->sigla = sigla;
+    this->quantidadeDeVagas= 0;
+    this->quantidadeDeEleitos=0;
+    this->quantidadeDeVotosLegenda =0;
+    this->quantidadeDeVotosNominais = 0;
 }
 
 string Partido::getSigla() const
@@ -29,7 +33,7 @@ int Partido::getQuantidadeDeVotosLegenda() const
 }
 int Partido::getQuantidadeTotalDeVotos() const
 {
-    return this->quantidadeTotalDeVotos;
+    return this->quantidadeDeVotosLegenda + this->quantidadeDeVotosNominais;
 }
 int Partido::getQuantidadeDeEleitos() const
 {
@@ -50,7 +54,7 @@ Candidato *Partido::getCandMenosVotado() const
 
 void Partido::addCandidato(Candidato &c)
 {
-    candidatos.insert({c.getNumeroVotavel(), &c});
+    candidatos.push_back(&c);
 }
 void Partido::incrementaVotosNominais(int qtd)
 {
@@ -67,14 +71,8 @@ void Partido::incrementaQuantidadeDeVagas()
 void Partido::setCandidatoMenoseMaisVotado()
 {
 
-    vector<Candidato*> candidatosList;
-    map<int, Candidato *>::iterator it;
-    for (it = candidatos.begin(); it != candidatos.end(); ++it)
-    {
-        cout << *it->second << endl;
-        
-        candidatosList.push_back(it->second);
-    }
+    vector<Candidato*> candidatosList(candidatos.begin(),candidatos.end());
+
     if (candidatosList.size() == 0)
     {
         candMaisvotado = NULL;
@@ -134,7 +132,7 @@ ostream &operator<<(ostream &os, const Partido &p)
 
 bool Partido::operator<(const Partido &p)
 {
-    int valor = this->quantidadeTotalDeVotos - p.getQuantidadeTotalDeVotos();
+    int valor = this->getQuantidadeTotalDeVotos() - p.getQuantidadeTotalDeVotos();
     if (valor == 0)
     {
         return (p.getNumeroVotavel() - this->numero_votavel) < 0;
