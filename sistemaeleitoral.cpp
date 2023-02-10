@@ -22,7 +22,7 @@ SistemaEleitoral::SistemaEleitoral(string &numeroCargo, string pathConsulta, str
     this->totalVotosNominais=0;
 }
 
-int SistemaEleitoral::getNumeroCargo()
+int SistemaEleitoral::getNumeroCargo() const
 {
     return numeroCargo;
 }

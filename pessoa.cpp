@@ -7,8 +7,14 @@ using namespace std;
 // 01/02/2023
 // 10/10/2002
 //
-
-static int calculaIdade(Date dataDeNascimento, Date dataAtual)
+/**
+ * @brief Calcula a idade em anos de uma pessoa
+ * 
+ * @param dataDeNascimento 
+ * @param dataAtual 
+ * @return int 
+ */
+int calculaIdade(Date dataDeNascimento, Date dataAtual)
 {
     int ano = dataAtual.getAno() - dataDeNascimento.getAno();
     

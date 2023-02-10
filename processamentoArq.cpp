@@ -8,23 +8,79 @@
 #include <cctype>
 #include <algorithm>
 
-// Código para fazer trim nas strings retirado da internet
-// https://stackoverflow.com/questions/216823/how-to-trim-an-stdstring
-// trim from start (in place)
+// ------------------------------ Protótipos ----------------------------------------- //
+/**
+ * @brief A partir da linha dividida cria um partido e coloca ele no mapa geral de partidos
+ * 
+ * @param atributos 
+ * @param coluna 
+ * @param sisEleitoral 
+ * @return Partido* 
+ */
+static Partido *criaPartido(vector<string> &atributos, map<string, int> &coluna, SistemaEleitoral &sisEleitoral);
+
+/**
+ * @brief 
+ * 
+ * @param atributos 
+ * @param coluna 
+ * @param sisEleitoral 
+ * @param p 
+ */
+static void criaCandidato(vector<string> &atributos, map<string, int> &coluna, SistemaEleitoral &sisEleitoral, Partido *p);
+
+/**
+ * @brief Faz o split da linha inteira lida
+ * 
+ * @param str 
+ * @return vector<string> 
+ */
+vector<string> split(string &str);
+
+/**
+ * @brief Faz um mapa da linha lida onde cada string tem seu 
+ *        index correspondente na linha dividida
+ * 
+ * @param str 
+ * @return map<string, int> 
+ */
+map<string, int> criaMapaCabealho(string &str);
+
+/**
+ * @brief Compara duas strings em português
+ * 
+ * @param s1 
+ * @param s2 
+ * @return true 
+ * @return false 
+ */
+bool compare_pt_BR(const string &s1, const string &s2);
+
+/**
+ * @brief Remove as aspas
+ * 
+ * @param str 
+ */
+void tiraAspas(string &str);
+
+// -----------------------------------------------------------------------------------------//
 
 bool compare_pt_BR(const string &s1, const string &s2)
 {
-  locale loc = locale("pt_BR.UTF-8");
-  const collate<char> &col = use_facet<collate<char>>(loc);
-  return (col.compare(s1.data(), s1.data() + s1.size(),
-                      s2.data(), s2.data() + s2.size()) < 0);
+    locale loc = locale("pt_BR.UTF-8");
+    const collate<char> &col = use_facet<collate<char>>(loc);
+    return (col.compare(s1.data(), s1.data() + s1.size(),
+                        s2.data(), s2.data() + s2.size()) < 0);
 }
+
+// Código para fazer trim nas strings retirado da internet
+// https://stackoverflow.com/questions/216823/how-to-trim-an-stdstring
+// trim from start (in place)
 static inline void ltrim(string &s)
 {
     s.erase(s.begin(), find_if(s.begin(), s.end(), [](unsigned char ch)
                                { return !isspace(ch); }));
 }
-
 // trim from end (in place)
 static inline void rtrim(string &s)
 {
@@ -33,7 +89,6 @@ static inline void rtrim(string &s)
                 .base(),
             s.end());
 }
-
 // trim from both ends (in place)
 static inline void trim(string &s)
 {
@@ -47,7 +102,6 @@ static inline string trim_copy(string s)
     return s;
 }
 
-///////////////////////////////////////////////////////
 
 string iso_8859_1_to_utf8(string &str)
 {
@@ -93,6 +147,7 @@ vector<string> split(string &str)
 
     return linha_quebrada;
 }
+
 map<string, int> criaMapaCabealho(string &str)
 {
     string chave;
@@ -124,6 +179,7 @@ static Partido *criaPartido(vector<string> &atributos, map<string, int> &coluna,
     return sisEleitoral.getPartido(numPartido); // ja existe
 }
 
+
 static void criaCandidato(vector<string> &atributos, map<string, int> &coluna, SistemaEleitoral &sisEleitoral, Partido *p)
 {
 
@@ -143,23 +199,22 @@ static void criaCandidato(vector<string> &atributos, map<string, int> &coluna, S
 
     legenda = !compare_pt_BR(atributos[coluna["NM_TIPO_DESTINACAO_VOTOS"]], "Válido (legenda)");
 
-      
-    
     if (stoi(atributos[coluna["CD_SITUACAO_CANDIDATO_TOT"]]) != 2 &&
-        stoi(atributos[coluna["CD_SITUACAO_CANDIDATO_TOT"]]) != 16) {
-        deferido = false;        
+        stoi(atributos[coluna["CD_SITUACAO_CANDIDATO_TOT"]]) != 16)
+    {
+        deferido = false;
     }
     else
         deferido = true;
 
     if (!legenda && !deferido)
         return; // não deferido nem legenda ignora
-    
+
     tipoDeputado = stoi(atributos[coluna["CD_CARGO"]]);
     // cout << tipoDeputado << " e " << nCargo << endl;
     if (tipoDeputado != nCargo)
         return;
-    
+
     numeroVotavel = stoi(atributos[coluna["NR_CANDIDATO"]]);
     nome = trim_copy(atributos[coluna["NM_URNA_CANDIDATO"]]);
 
@@ -171,12 +226,12 @@ static void criaCandidato(vector<string> &atributos, map<string, int> &coluna, S
     else if (gen == 4)
         genero = "Masculino";
 
-    
     string situTurno = atributos[coluna["CD_SIT_TOT_TURNO"]];
     int x = stoi(situTurno);
-    
+
     if (x == 3 || x == 2)
-    {       
+    {
+
         sisEleitoral.incrementaQtdVagas();
         p->incrementaQuantidadeDeVagas();
         p->incrementaEleitos();
@@ -185,8 +240,9 @@ static void criaCandidato(vector<string> &atributos, map<string, int> &coluna, S
     else
         eleito = false;
 
+
     Candidato* c = (new Candidato(nome, genero, Date(atributos[coluna["DT_NASCIMENTO"]]), tipoDeputado, numeroVotavel, eleito,
-                                 numeroFederacao, legenda, p, sisEleitoral.getDataDaEleicao(), deferido));
+                    numeroFederacao, legenda, p, sisEleitoral.getDataDaEleicao(), deferido));
 
     sisEleitoral.addCandidato(*c);
     p->addCandidato(*c);
@@ -195,36 +251,41 @@ static void criaCandidato(vector<string> &atributos, map<string, int> &coluna, S
 void readConsultaCand(SistemaEleitoral &sisEleitoral)
 {
     ifstream consultaFile;
-    // locale loc = locale("pt_BR.ISO8859-1");
-    // consultaFile.imbue(loc);
-    consultaFile.exceptions(ifstream::badbit); // para tratar exceções depois
-    consultaFile.open(sisEleitoral.getPathConsulta());
-
-    if (!consultaFile.is_open())
-        exit(EXIT_FAILURE);
-    string linha = "";
-    // le o cabecalho
-    getline(consultaFile, linha);
-    map<string, int> coluna = criaMapaCabealho(linha);
-    linha = "";
-    // cada passagem no while é uma linha lida
-
-    while (getline(consultaFile, linha))
+    consultaFile.exceptions(ifstream::badbit); 
+    try
     {
-        string linha_utf8 = iso_8859_1_to_utf8(linha);
-        vector<string> atributos = split(linha_utf8);
-        Partido *partido = criaPartido(atributos, coluna, sisEleitoral);
+        consultaFile.open(sisEleitoral.getPathConsulta());
 
-        criaCandidato(atributos, coluna, sisEleitoral, partido);
-
+        string linha = "";
+        // le o cabecalho
+        getline(consultaFile, linha);
+        map<string, int> coluna = criaMapaCabealho(linha);
         linha = "";
+        // cada passagem no while é uma linha lida
+
+        while (getline(consultaFile, linha))
+        {
+            string linha_utf8 = iso_8859_1_to_utf8(linha);
+            vector<string> atributos = split(linha_utf8);
+            Partido *partido = criaPartido(atributos, coluna, sisEleitoral);
+
+            criaCandidato(atributos, coluna, sisEleitoral, partido);
+
+            linha = "";
+        }
+        consultaFile.close();
     }
-    // sisEleitoral.printPartidos(sisEleitoral);
+    catch (ifstream::failure &)
+    {
+        cerr << "Exception opening/reading/closing candidatos file\n";
+    }
 }
+
 static void contaVotos(vector<string> &atributos, map<string, int> &coluna, SistemaEleitoral &sisEleitoral)
 {
 
-    if (stoi(atributos[coluna["CD_CARGO"]]) != sisEleitoral.getNumeroCargo()){
+    if (stoi(atributos[coluna["CD_CARGO"]]) != sisEleitoral.getNumeroCargo())
+    {
         return;
     }
 
@@ -265,24 +326,32 @@ static void contaVotos(vector<string> &atributos, map<string, int> &coluna, Sist
 void readVotos(SistemaEleitoral &sisEleitoral)
 {
     ifstream votosFIle;
-    // locale loc = locale("pt_BR.UTF-8");
-    // votosFIle.imbue(loc);
-    votosFIle.exceptions(ifstream::badbit);
-    votosFIle.open(sisEleitoral.getPathVotos());
-    
-    string linha = "";
 
-    getline(votosFIle, linha);
-    map<string, int> coluna = criaMapaCabealho(linha);
-    linha = "";
- 
-    while (getline(votosFIle, linha))
+    votosFIle.exceptions(ifstream::badbit | ifstream::failbit);
+    try
     {
 
-        string linha_utf8 = iso_8859_1_to_utf8(linha);
-        vector<string> atributos = split(linha);
-        contaVotos(atributos, coluna, sisEleitoral);
+        votosFIle.open(sisEleitoral.getPathVotos());
 
+        string linha = "";
+
+        getline(votosFIle, linha);
+        map<string, int> coluna = criaMapaCabealho(linha);
         linha = "";
+
+        while (getline(votosFIle, linha))
+        {
+
+            string linha_utf8 = iso_8859_1_to_utf8(linha);
+            vector<string> atributos = split(linha);
+            contaVotos(atributos, coluna, sisEleitoral);
+
+            linha = "";
+        }
+        votosFIle.close();
+    }
+    catch (ifstream::failure &)
+    {
+        cerr << "Exception opening/reading/closing votacao file\n";
     }
 }

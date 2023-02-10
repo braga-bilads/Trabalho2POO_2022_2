@@ -34,6 +34,11 @@ bool Candidato::isDeferido() const
 {
     return deferido;
 }
+/**
+ * @brief incrementa o número de votos do candidato e do seu partido
+ * 
+ * @param qtdVotos 
+ */
 void Candidato::incrementaNumeroVotos(int qtdVotos)
 {
     this->numeroDeVotos += qtdVotos;
@@ -46,7 +51,6 @@ void Candidato::incrementaNumeroVotos(int qtdVotos)
 }
 bool Candidato::isEleito_e_Deferido() const
 {
-    // cout << eleito << deferido << endl;
     return eleito && deferido;
 }
 
@@ -67,14 +71,14 @@ ostream& operator<<(ostream& os, const Candidato& c) {
     return os;
 }
 
-bool Candidato::operator<(const Candidato *c) {
+// bool Candidato::operator<(const Candidato *c) {
     
-    int valor = c->getNumeroDeVotos() - this->numeroDeVotos;
-    if (valor == 0) {
-        return (c->getIdade() - this->getIdade()) > 0;
-    }
-    return valor > 0;
-}
+//     int valor = c->getNumeroDeVotos() - this->numeroDeVotos;
+//     if (valor == 0) {
+//         return (c->getIdade() - this->getIdade()) > 0;
+//     }
+//     return valor > 0;
+// }
 
 bool compCand(Candidato *c1, Candidato *c2) {
     if (c1->getNumeroDeVotos() == c2->getNumeroDeVotos()) {
