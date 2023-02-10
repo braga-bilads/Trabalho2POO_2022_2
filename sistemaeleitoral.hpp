@@ -17,13 +17,13 @@ private:
     int numeroCargo;
     Date dataDaEleicao;
     int qtdVagas;
-    string *pathConsulta;
-    string *pathVotos;
+    string pathConsulta;
+    string pathVotos;
     int totalVotosLegenda;
     int totalVotosNominais;
 
 public:
-    SistemaEleitoral(string &numeroCargo, string &pathConsulta, string &pathVotos, Date dataDaEleicao);
+    SistemaEleitoral(string &numeroCargo, string pathConsulta, string pathVotos, Date dataDaEleicao);
 
     int getNumeroCargo();
     void incTotalVotosLegenda(int qtd);

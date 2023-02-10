@@ -222,8 +222,10 @@ void readConsultaCand(SistemaEleitoral &sisEleitoral)
 static void contaVotos(vector<string> &atributos, map<string, int> &coluna, SistemaEleitoral &sisEleitoral)
 {
 
-    if (stoi(atributos[coluna["CD_CARGO"]]) != sisEleitoral.getNumeroCargo())
+
+    if (stoi(atributos[coluna["CD_CARGO"]]) != sisEleitoral.getNumeroCargo()){
         return;
+    }
 
     int numero = stoi(atributos[coluna["NR_VOTAVEL"]]);
 
@@ -232,9 +234,9 @@ static void contaVotos(vector<string> &atributos, map<string, int> &coluna, Sist
 
     int votos = stoi(atributos[coluna["QT_VOTOS"]]);
 
-    if (sisEleitoral.candidatoExiste(numero) == 0)
+    if (!sisEleitoral.candidatoExiste(numero))
     {
-        if ((sisEleitoral.partidoExiste(numero)) != 0)
+        if ((sisEleitoral.partidoExiste(numero)))
         {
             Partido *p = sisEleitoral.getPartido(numero);
             p->incrementaVotosLegenda(votos);
@@ -262,22 +264,22 @@ static void contaVotos(vector<string> &atributos, map<string, int> &coluna, Sist
 void readVotos(SistemaEleitoral &sisEleitoral)
 {
     ifstream votosFIle;
-    // locale loc = locale("pt_BR.ISO8859-1");
+    // locale loc = locale("pt_BR.UTF-8");
     // votosFIle.imbue(loc);
     votosFIle.exceptions(ifstream::badbit);
     votosFIle.open(sisEleitoral.getPathVotos());
-
+    
     string linha = "";
 
     getline(votosFIle, linha);
     map<string, int> coluna = criaMapaCabealho(linha);
     linha = "";
-
+ 
     while (getline(votosFIle, linha))
     {
-        // string linha_utf8 = iso_8859_1_to_utf8(linha);
-        vector<string> atributos = split(linha);
 
+        string linha_utf8 = iso_8859_1_to_utf8(linha);
+        vector<string> atributos = split(linha);
         contaVotos(atributos, coluna, sisEleitoral);
 
         linha = "";

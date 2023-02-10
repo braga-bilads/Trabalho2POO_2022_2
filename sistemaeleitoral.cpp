@@ -1,7 +1,7 @@
 #include <iostream>
 #include "sistemaeleitoral.hpp"
 
-SistemaEleitoral::SistemaEleitoral(string &numeroCargo, string &pathConsulta, string &pathVotos, Date dataDaEleicao) {
+SistemaEleitoral::SistemaEleitoral(string &numeroCargo, string pathConsulta, string pathVotos, Date dataDaEleicao) {
     int cargo = 0;
     if (numeroCargo.compare("--estadual") == 0) {
         cargo = 7;
@@ -15,8 +15,8 @@ SistemaEleitoral::SistemaEleitoral(string &numeroCargo, string &pathConsulta, st
     }
     this->numeroCargo = cargo;
     this->dataDaEleicao = dataDaEleicao;
-    this->pathConsulta = &pathConsulta;
-    this->pathVotos = &pathVotos;
+    this->pathConsulta = pathConsulta;
+    this->pathVotos = pathVotos;
     this->qtdVagas = 0;    
 
 }
@@ -49,10 +49,10 @@ Date SistemaEleitoral::getDataDaEleicao() const {
     return this->dataDaEleicao;
 }
 string SistemaEleitoral::getPathConsulta() const {
-    return *this->pathConsulta;
+    return this->pathConsulta;
 }
 string SistemaEleitoral::getPathVotos() const {
-    return *this->pathVotos;
+    return this->pathVotos;
 }
 void SistemaEleitoral::addCandidato(Candidato &c) {    
     // cout<<c.getNumeroVotavel()  << " " << c.getNome() << " " << c.getGenero()<< endl;
