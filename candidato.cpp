@@ -40,6 +40,7 @@ void Candidato::incrementaNumeroVotos(int qtdVotos)
 }
 bool Candidato::isEleito_e_Deferido() const
 {
+    // cout << eleito << deferido << endl;
     return eleito && deferido;
 }
 
@@ -63,7 +64,7 @@ ostream& operator<<(ostream& os, const Candidato& c) {
 bool Candidato::operator<(const Candidato &c) {
     int valor = c.getNumeroDeVotos() - this->numeroDeVotos;
     if (valor == 0) {
-        //mudar idade
+        return c.getIdade() - this->getIdade();
     }
     return valor < 0;
 }

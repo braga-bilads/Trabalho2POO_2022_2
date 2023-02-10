@@ -2,16 +2,7 @@
 #include <vector>
 #include <iterator>
 #include <algorithm>
-
-static bool compare(Candidato *a, Candidato *b)
-{
-    int valor = b->getNumeroDeVotos() - a->getNumeroDeVotos();
-    if (valor == 0)
-    {
-        // compara idade
-    }
-    return valor < 0;
-}
+#include <list>
 
 Partido::Partido(int numero_votavel, string sigla)
 {
@@ -75,24 +66,33 @@ void Partido::incrementaQuantidadeDeVagas()
 }
 void Partido::setCandidatoMenoseMaisVotado()
 {
-    vector<Candidato *> candidatos_vec(candidatos.size());
+
+    vector<Candidato*> candidatosList;
     map<int, Candidato *>::iterator it;
     for (it = candidatos.begin(); it != candidatos.end(); ++it)
     {
-        candidatos_vec.push_back(it->second);
+        cout << *it->second << endl;
+        
+        candidatosList.push_back(it->second);
     }
-    sort(candidatos_vec.begin(), candidatos_vec.end(), [](Candidato *const a, Candidato *const b) -> bool
-         { return compare(a, b); });
+    if (candidatosList.size() == 0)
+    {
+        candMaisvotado = NULL;
+        candMenosvotado = NULL;
+    }
+    sort(candidatosList.begin(), candidatosList.end());   
+    
     int i = 1;
-    while (!candidatos_vec[candidatos_vec.size() - i]->isDeferido())
+    
+    while (!candidatosList[candidatosList.size() - i]->isDeferido())
         i++;
 
-    candMenosvotado = candidatos_vec[candidatos_vec.size() - i];
+    candMenosvotado = candidatosList[candidatosList.size() - i];
     i = 0;
-    while (!candidatos_vec[i]->isDeferido())
+    while (!candidatosList[i]->isDeferido())
         i++;
 
-    candMaisvotado = candidatos_vec[i];
+    candMaisvotado = candidatosList[i];
 }
 
 void Partido::incrementaEleitos()
@@ -132,11 +132,12 @@ ostream &operator<<(ostream &os, const Partido &p)
     return os << saida;
 }
 
-bool Partido::operator<(const Partido &p) {
+bool Partido::operator<(const Partido &p)
+{
     int valor = this->quantidadeTotalDeVotos - p.getQuantidadeTotalDeVotos();
-    if (valor == 0) {        
+    if (valor == 0)
+    {
         return (p.getNumeroVotavel() - this->numero_votavel) < 0;
     }
     return valor < 0;
 }
-

@@ -88,7 +88,7 @@ void geraSaida(SistemaEleitoral &sisEleitoral)
     for (Candidato *c : candidatosSorted)
     {
         if (c->isEleito_e_Deferido() && c->getNumeroDeVotos() < menorNumeroVotos)
-        {
+        {         
             beneficiadosMajoritaria.insert({i, c});
         }
         if (c->isDeferido())
@@ -125,7 +125,7 @@ void geraSaida(SistemaEleitoral &sisEleitoral)
     list<Partido *> partidosComVotos;
     for (Partido *p : partidosSorted)
     {
-        cout << i << " - " << p << endl;
+        cout << i << " - " << *p << endl;
         i++;
 
         if (p->getQuantidadeTotalDeVotos() != 0)
@@ -141,28 +141,28 @@ void geraSaida(SistemaEleitoral &sisEleitoral)
 
     i = 1;
 
-    for (Partido *p : partidosComVotos)
-    {
-        Candidato *cMaisVotado = p->getCandMaisVotado();
-        Candidato *cMenosVotado = p->getCandMenosVotado();
-        if (cMaisVotado == NULL || cMenosVotado == NULL)
-        {
-            continue;
-        }
-        string votos = "";
-        if (cMenosVotado->getNumeroDeVotos() > 1)
-        {
-            votos = " votos)";
-        }
-        else
-        {
-            votos = " voto)";
-        }
-        string saida = to_string(i) + " - " + p->getSigla() + " - " + to_string(p->getNumeroVotavel()) + ", " + cMaisVotado->getNome() + " (" + to_string(cMaisVotado->getNumeroVotavel()) + ", " + to_string(cMaisVotado->getNumeroDeVotos()) + " votos" + ") / " +
-                       cMenosVotado->getNome() + " (" + to_string(cMenosVotado->getNumeroVotavel()) + ", " + to_string(cMenosVotado->getNumeroDeVotos()) + votos;
-        cout << saida << endl;
-        i++;
-    }
+    // for (Partido *p : partidosComVotos)
+    // {
+    //     Candidato *cMaisVotado = p->getCandMaisVotado();
+    //     Candidato *cMenosVotado = p->getCandMenosVotado();
+    //     if (cMaisVotado == NULL || cMenosVotado == NULL)
+    //     {
+    //         continue;
+    //     }
+    //     string votos = "";
+    //     if (cMenosVotado->getNumeroDeVotos() > 1)
+    //     {
+    //         votos = " votos)";
+    //     }
+    //     else
+    //     {
+    //         votos = " voto)";
+    //     }
+    //     string saida = to_string(i) + " - " + p->getSigla() + " - " + to_string(p->getNumeroVotavel()) + ", " + cMaisVotado->getNome() + " (" + to_string(cMaisVotado->getNumeroVotavel()) + ", " + to_string(cMaisVotado->getNumeroDeVotos()) + " votos" + ") / " +
+    //                    cMenosVotado->getNome() + " (" + to_string(cMenosVotado->getNumeroVotavel()) + ", " + to_string(cMenosVotado->getNumeroDeVotos()) + votos;
+    //     cout << saida << endl;
+    //     i++;
+    // }
 
     int masculino = 0, feminino = 0;
     int menorque30 = 0, entre30e40 = 0, entre40e50 = 0, entre50e60 = 0, maiorque60 = 0;
@@ -170,8 +170,10 @@ void geraSaida(SistemaEleitoral &sisEleitoral)
     for (Candidato *c : getValuesCand(candidatos))
     {
 
+
         if (!c->isEleito_e_Deferido())
             continue;
+        
         if (c->getIdade() < 30)
             menorque30++;
         else if (c->getIdade() >= 30 && c->getIdade() < 40)
@@ -183,9 +185,9 @@ void geraSaida(SistemaEleitoral &sisEleitoral)
         else
             maiorque60++;
 
-        if (c->getGenero() == "feminino")
+        if (c->getGenero() == "Feminino")
             masculino++;
-        else if (c->getGenero() == "masculino")
+        else if (c->getGenero() == "Masculino")
             feminino++;
     }
 

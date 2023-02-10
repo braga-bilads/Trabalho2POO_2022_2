@@ -39,7 +39,7 @@ $(EXECUTAVEL): $(OBJETOS)
 
 # comandos para execução
 runfederal: $(EXECUTAVEL)
-	@./$(EXECUTAVEL) --federal candidatos.csv votacao.csv 02/10/2022
+	@./$(EXECUTAVEL) --federal candidatos.csv votacao2.csv 02/10/2022
 
 runestadual: $(EXECUTAVEL)
 	@./$(EXECUTAVEL) --estadual candidatos.csv votacao.csv 02/10/2022

@@ -39,6 +39,7 @@ public:
     void incrementaQuantidadeDeVagas();  // soma um
     void setCandidatoMenoseMaisVotado(); // ordena os candidatos e seta o mais e menos votado
     void incrementaEleitos();
+    void printCandidatos();
     bool operator<(const Partido &p);   
 
 };

@@ -11,6 +11,14 @@
 // Código para fazer trim nas strings retirado da internet
 // https://stackoverflow.com/questions/216823/how-to-trim-an-stdstring
 // trim from start (in place)
+
+bool compare_pt_BR(const string &s1, const string &s2)
+{
+  locale loc = locale("pt_BR.UTF-8");
+  const collate<char> &col = use_facet<collate<char>>(loc);
+  return (col.compare(s1.data(), s1.data() + s1.size(),
+                      s2.data(), s2.data() + s2.size()) < 0);
+}
 static inline void ltrim(string &s)
 {
     s.erase(s.begin(), find_if(s.begin(), s.end(), [](unsigned char ch)
@@ -100,7 +108,7 @@ map<string, int> criaMapaCabealho(string &str)
     return map;
 }
 
-static Partido *criaPartido(vector<string> &atributos, map<string, int> &coluna, SistemaEleitoral & sisEleitoral)
+static Partido *criaPartido(vector<string> &atributos, map<string, int> &coluna, SistemaEleitoral &sisEleitoral)
 {
     int numPartido;
     string siglaPartido;
@@ -115,6 +123,7 @@ static Partido *criaPartido(vector<string> &atributos, map<string, int> &coluna,
     }
     return sisEleitoral.getPartido(numPartido); // ja existe
 }
+int i = 1;
 
 static void criaCandidato(vector<string> &atributos, map<string, int> &coluna, SistemaEleitoral &sisEleitoral, Partido *p)
 {
@@ -130,42 +139,46 @@ static void criaCandidato(vector<string> &atributos, map<string, int> &coluna, S
     string nome;
     string genero;
 
-    
-    legenda = atributos[coluna["NM_TIPO_DESTINACAO_VOTOS"]] == "Válido (legenda)";
+    // cout << stoi(situTurno) << endl;
+    // cout << atributos[coluna["NM_TIPO_DESTINACAO_VOTOS"]] << endl;
 
+    legenda = !compare_pt_BR(atributos[coluna["NM_TIPO_DESTINACAO_VOTOS"]], "Válido (legenda)");
+
+      
+    
     if (stoi(atributos[coluna["CD_SITUACAO_CANDIDATO_TOT"]]) != 2 &&
-        stoi(atributos[coluna["CD_SITUACAO_CANDIDATO_TOT"]]) != 16)
-        deferido = false;
+        stoi(atributos[coluna["CD_SITUACAO_CANDIDATO_TOT"]]) != 16) {
+        deferido = false;        
+    }
     else
         deferido = true;
 
     if (!legenda && !deferido)
         return; // não deferido nem legenda ignora
-
-
+    
     tipoDeputado = stoi(atributos[coluna["CD_CARGO"]]);
-     
-
+    // cout << tipoDeputado << " e " << nCargo << endl;
     if (tipoDeputado != nCargo)
         return;
-
+    
     numeroVotavel = stoi(atributos[coluna["NR_CANDIDATO"]]);
     nome = trim_copy(atributos[coluna["NM_URNA_CANDIDATO"]]);
-   
-    numeroFederacao = stoi(atributos[coluna["NR_FEDERACAO"]]);
-   
-    switch (stoi(atributos[coluna["CD_GENERO"]]))
-    {
-    case 2:
-        genero = "Feminino";
-        break;
 
-    default:
+    numeroFederacao = stoi(atributos[coluna["NR_FEDERACAO"]]);
+
+    int gen = stoi(atributos[coluna["CD_GENERO"]]);
+    if (gen == 2)
+        genero = "Feminino";
+    else if (gen == 4)
         genero = "Masculino";
-        break;
-    }
-    if (stoi(atributos[coluna["CD_SIT_TOT_TURNO"]]) == 3 || stoi(atributos[coluna["CD_SIT_TOT_TURNO"]]) == 2)
-    {
+
+    
+    string situTurno = atributos[coluna["CD_SIT_TOT_TURNO"]];
+    int x = stoi(situTurno);
+    
+    if (x == 3 || x == 2)
+    {       
+        
         sisEleitoral.incrementaQtdVagas();
         p->incrementaQuantidadeDeVagas();
         p->incrementaEleitos();
@@ -184,8 +197,9 @@ void readConsultaCand(SistemaEleitoral &sisEleitoral)
     // consultaFile.imbue(loc);
     consultaFile.exceptions(ifstream::badbit); // para tratar exceções depois
     consultaFile.open(sisEleitoral.getPathConsulta());
-    
-    if(!consultaFile.is_open() ) exit(EXIT_FAILURE);
+
+    if (!consultaFile.is_open())
+        exit(EXIT_FAILURE);
     string linha = "";
     // le o cabecalho
     getline(consultaFile, linha);
@@ -198,11 +212,12 @@ void readConsultaCand(SistemaEleitoral &sisEleitoral)
         string linha_utf8 = iso_8859_1_to_utf8(linha);
         vector<string> atributos = split(linha_utf8);
         Partido *partido = criaPartido(atributos, coluna, sisEleitoral);
+
         criaCandidato(atributos, coluna, sisEleitoral, partido);
 
         linha = "";
     }
-    //sisEleitoral.printPartidos(sisEleitoral);
+    // sisEleitoral.printPartidos(sisEleitoral);
 }
 static void contaVotos(vector<string> &atributos, map<string, int> &coluna, SistemaEleitoral &sisEleitoral)
 {
@@ -217,20 +232,22 @@ static void contaVotos(vector<string> &atributos, map<string, int> &coluna, Sist
 
     int votos = stoi(atributos[coluna["QT_VOTOS"]]);
 
-    if(sisEleitoral.candidatoExiste(numero) == 0){
+    if (sisEleitoral.candidatoExiste(numero) == 0)
+    {
         if ((sisEleitoral.partidoExiste(numero)) != 0)
         {
-            Partido* p = sisEleitoral.getPartido(numero);
+            Partido *p = sisEleitoral.getPartido(numero);
             p->incrementaVotosLegenda(votos);
             sisEleitoral.incTotalVotosLegenda(votos);
         }
-        else{
+        else
+        {
             return;
-        } 
-            
+        }
     }
-    else{
-        Candidato* c = (sisEleitoral.getCandidato(numero));
+    else
+    {
+        Candidato *c = (sisEleitoral.getCandidato(numero));
         c->incrementaNumeroVotos(votos);
 
         if (!c->isLegenda())
@@ -258,7 +275,7 @@ void readVotos(SistemaEleitoral &sisEleitoral)
 
     while (getline(votosFIle, linha))
     {
-        //string linha_utf8 = iso_8859_1_to_utf8(linha);
+        // string linha_utf8 = iso_8859_1_to_utf8(linha);
         vector<string> atributos = split(linha);
 
         contaVotos(atributos, coluna, sisEleitoral);
