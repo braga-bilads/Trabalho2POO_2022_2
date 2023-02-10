@@ -42,7 +42,8 @@ public:
     void printCandidatos();
 
 };
-bool ComparaPartidoTotalVotos(Partido *p1, Partido*p2);
+bool comparaPartidoTotalVotos(Partido *p1, Partido*p2);
+bool comparaPartidoCandMaisVotado(Partido *p1, Partido*p2);
 ostream &operator<<(ostream &os, const Partido &p);
 
 #endif

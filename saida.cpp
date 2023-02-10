@@ -123,7 +123,7 @@ void geraSaida(SistemaEleitoral &sisEleitoral)
 
     map<int, Partido *> partidos(sisEleitoral.getPartidos());
     list<Partido *> partidosSorted(getValuesPartido(partidos));
-    partidosSorted.sort();
+    partidosSorted.sort(comparaPartidoTotalVotos);
 
     i = 1;
     list<Partido *> partidosComVotos;
@@ -141,10 +141,8 @@ void geraSaida(SistemaEleitoral &sisEleitoral)
 
     cout << "\nPrimeiro e último colocados de cada partido:\n";
 
-    // setar o locale
-
     i = 1;
-
+    partidosComVotos.sort(comparaPartidoCandMaisVotado);
     for (Partido *p : partidosComVotos)
     {
         Candidato *cMaisVotado = p->getCandMaisVotado();
@@ -162,10 +160,10 @@ void geraSaida(SistemaEleitoral &sisEleitoral)
         {
             votos = " voto)";
         }
-        
-        cout << to_string(i) + " - " + p->getSigla() + " - " << p->getNumeroVotavel() << ", " << cMaisVotado->getNome() << " (" 
-             << cMaisVotado->getNumeroVotavel() << ", " << cMaisVotado->getNumeroDeVotos() << " votos" << ") / " 
-             <<  cMenosVotado->getNome() << " (" << cMenosVotado->getNumeroVotavel() << ", " << cMenosVotado->getNumeroDeVotos() 
+
+        cout << to_string(i) + " - " + p->getSigla() + " - " << to_string(p->getNumeroVotavel()) << ", " << cMaisVotado->getNome() << " (" 
+             << to_string(cMaisVotado->getNumeroVotavel()) << ", " << cMaisVotado->getNumeroDeVotos() << " votos" << ") / " 
+             <<  cMenosVotado->getNome() << " (" << to_string(cMenosVotado->getNumeroVotavel()) << ", " << cMenosVotado->getNumeroDeVotos() 
              << votos << endl;
     
         i++;

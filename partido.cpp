@@ -101,43 +101,75 @@ void Partido::incrementaEleitos()
 
 ostream &operator<<(ostream &os, const Partido &p)
 {
-
-    string saida = p.getSigla() + " - " + to_string(p.getNumeroVotavel()) + ", " + to_string(p.getQuantidadeTotalDeVotos());
+    string votos = "";
+    string nominais = "";
+    string eleitos = "";
 
     if (p.getQuantidadeTotalDeVotos() > 1)
     {
-        saida = saida + " votos (" + to_string(p.getQuantidadeDeVotosNominais());
+        votos = " votos (";
+        // saida = saida + " votos (" + to_string(p.getQuantidadeDeVotosNominais());
     }
     else
     {
-        saida = saida + " voto (" + to_string(p.getQuantidadeDeVotosNominais());
+        votos = " voto (";
+        // saida = saida + " voto (" + to_string(p.getQuantidadeDeVotosNominais());
     }
     if (p.getQuantidadeDeVotosNominais() > 1)
     {
-        saida = saida + " nominais (" + to_string(p.getQuantidadeDeVotosLegenda()) + " de legenda), ";
+        nominais = " nominais e ";
+        // saida = saida + " nominais (" + to_string(p.getQuantidadeDeVotosLegenda()) + " de legenda), ";
     }
     else
     {
-        saida = saida + " nominal (" + to_string(p.getQuantidadeDeVotosLegenda()) + " de legenda), ";
+        nominais = " nominal e ";
+        // saida = saida + " nominal (" + to_string(p.getQuantidadeDeVotosLegenda()) + " de legenda), ";
     }
     if (p.getQuantidadeDeEleitos() > 1)
     {
-        saida = saida + to_string(p.getQuantidadeDeEleitos()) + " candidatos eleitos ";
+        eleitos = " candidatos eleitos ";
+        // saida = saida + to_string(p.getQuantidadeDeEleitos()) + " candidatos eleitos ";
     }
     else
     {
-        saida = saida + to_string(p.getQuantidadeDeEleitos()) + " candidatos eleitos ";
+        eleitos = " candidato eleito";
+        // saida = saida + to_string(p.getQuantidadeDeEleitos()) + " candidatos eleitos ";
     }
-    return os << saida;
+    return os << p.getSigla() << " - " << to_string(p.getNumeroVotavel()) << ", " << p.getQuantidadeTotalDeVotos() << 
+        votos << p.getQuantidadeDeVotosNominais() << nominais << p.getQuantidadeDeVotosLegenda() << " de legenda) " <<
+        p.getQuantidadeDeEleitos() << eleitos;
 }
 
-bool ComparaPartidoTotalVotos(Partido *p1, Partido*p2)
+bool comparaPartidoTotalVotos(Partido *p1, Partido*p2)
 {
     int valor = p1->getQuantidadeTotalDeVotos() - p2->getQuantidadeTotalDeVotos();
     if (valor == 0)
     {
         return (p1->getNumeroVotavel() - p2->getNumeroVotavel()) < 0;
     }
-    return valor < 0;
+    return valor > 0;
 }
 
+bool comparaPartidoCandMaisVotado(Partido *p1, Partido*p2)
+{
+ //caso p1 não tenha cand mais votado
+    if(p1->getCandMaisVotado() == NULL){
+        if(p2->getCandMaisVotado() == NULL){
+                return 0; //os dois não tem
+            }
+            else return (p2->getCandMaisVotado()->getNumeroDeVotos()) < 0;
+        }
+
+    if(p2->getCandMaisVotado() == NULL){
+        if(p1->getCandMaisVotado() == NULL){
+            return 0; // os dois não tem candidato mais votado
+        }
+        else return (p1->getCandMaisVotado()->getNumeroDeVotos()) < 0;
+    }
+    int valor = p1->getCandMaisVotado()->getNumeroDeVotos() - p2->getCandMaisVotado()->getNumeroDeVotos();
+    if(valor == 0){
+            //se for igual compara pelo numero do partido
+            return p2->getNumeroVotavel() - p1->getNumeroVotavel() < 0;
+        }
+    return (valor>0);
+}
