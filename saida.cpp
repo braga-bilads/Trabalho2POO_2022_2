@@ -15,6 +15,13 @@ static list<Candidato *> getValuesCand(map<int, Candidato *> candidatos)
     return l;
 }
 
+bool compCand(Candidato *c1, Candidato *c2) {
+    if (c1->getNumeroDeVotos() == c2->getNumeroDeVotos()) {
+        return c1->getIdade() > c2->getIdade();
+    }
+    return c1->getNumeroDeVotos() > c2->getNumeroDeVotos();
+}
+
 static list<Partido *> getValuesPartido(map<int, Partido *> partidos)
 {
     map<int, Partido *>::iterator itr;
@@ -54,7 +61,7 @@ void geraSaida(SistemaEleitoral &sisEleitoral)
     map<int, Candidato *> candidatos(sisEleitoral.getCandidatos());
 
     list<Candidato *> candidatosSorted(getValuesCand(candidatos));
-    candidatosSorted.sort();
+    candidatosSorted.sort(compCand);
     int i = 1;
     for (Candidato *c : candidatosSorted)
     {
@@ -87,6 +94,7 @@ void geraSaida(SistemaEleitoral &sisEleitoral)
     i = 1;
     for (Candidato *c : candidatosSorted)
     {
+       
         if (c->isEleito_e_Deferido() && c->getNumeroDeVotos() < menorNumeroVotos)
         {         
             beneficiadosMajoritaria.insert({i, c});
@@ -130,7 +138,7 @@ void geraSaida(SistemaEleitoral &sisEleitoral)
 
         if (p->getQuantidadeTotalDeVotos() != 0)
         {
-            p->setCandidatoMenoseMaisVotado();
+            // p->setCandidatoMenoseMaisVotado();
             partidosComVotos.push_back(p);
         }
     }
