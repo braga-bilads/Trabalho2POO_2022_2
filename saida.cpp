@@ -38,7 +38,7 @@ void geraSaida(SistemaEleitoral &sisEleitoral)
 {   
     cout.imbue(locale("pt_BR.UTF-8"));
     int qntdEleitos = sisEleitoral.getQtdVagas();
-    cout << "Numero de vagas: " << qntdEleitos << endl
+    cout << "Número de vagas: " << qntdEleitos << endl
          << endl;
     if (sisEleitoral.getNumeroCargo() == 7)
     {
@@ -211,7 +211,7 @@ void geraSaida(SistemaEleitoral &sisEleitoral)
     cout << "60 <= Idade     : " << maiorque60 << " (" << porcentagem((double)maiorque60, (double)qntdEleitos)<<"%)" << endl;
     
 
-    cout << "\nEleitos, por gênero:";
+    cout << "\nEleitos, por gênero:" << endl;
     cout << "Feminino: " << feminino << " (" << porcentagem((double)feminino, (double)qntdEleitos)<<"%)" << endl;
     cout << "Masculino: " << masculino << " (" << porcentagem((double)masculino, (double)qntdEleitos)<<"%)" << endl;
 

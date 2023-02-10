@@ -136,7 +136,7 @@ ostream &operator<<(ostream &os, const Partido &p)
         // saida = saida + to_string(p.getQuantidadeDeEleitos()) + " candidatos eleitos ";
     }
     return os << p.getSigla() << " - " << to_string(p.getNumeroVotavel()) << ", " << p.getQuantidadeTotalDeVotos() << 
-        votos << p.getQuantidadeDeVotosNominais() << nominais << p.getQuantidadeDeVotosLegenda() << " de legenda) " <<
+        votos << p.getQuantidadeDeVotosNominais() << nominais << p.getQuantidadeDeVotosLegenda() << " de legenda), " <<
         p.getQuantidadeDeEleitos() << eleitos;
 }
 
